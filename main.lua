@@ -1,18 +1,25 @@
 local Party = require("mechanics.party")
-local VortexScreen = require("screens.vortex")
+local HomeScreen = require("screens.home")
 local SummonScreen = require("screens.summon_screen")
 
-screen = "vortex"
+local background
+
+screen = "home"
 summonResult = nil
 
 function love.load()
-    love.window.setTitle("Prototype")
+    love.window.setTitle("Protoype")
     love.window.setMode(550, 800)
+    background = love.graphics.newImage("assets/backgrounds/home.png")
 end
 
 function love.draw()
-    if screen == "vortex" then
-        VortexScreen.draw()
+    if screen == "home" then
+        local bgWidth, bgHeight = background:getDimensions()
+        local sx = 550 / bgWidth
+        local sy = 800 / bgHeight
+        love.graphics.draw(background, 0, 0, 0, sx, sy) 
+        HomeScreen.draw()
         Party.draw()
     elseif screen == "summon" then
         SummonScreen.draw()
@@ -21,8 +28,8 @@ end
 
 function love.mousepressed(x, y, button)
     if button == 1 then
-        if screen == "vortex" then
-            VortexScreen.mousepressed(x, y, button)
+        if screen == "home" then
+            HomeScreen.mousepressed(x, y, button)
         elseif screen == "summon" then
             SummonScreen.mousepressed()
         end
@@ -32,7 +39,7 @@ end
 function love.update(dt)
     if screen == "summon" then
         SummonScreen.update(dt, function()
-            screen = "vortex"
+            screen = "home"
         end)
     end
 end
