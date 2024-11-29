@@ -7,12 +7,12 @@ local unitPools = {
 }
 
 function Summon.summonUnit()
-    local roll = math.random(1, 100)
+    local roll = math.random(1, 200)
     local rarity
 
-    if roll <= 50 then
+    if roll <= 125 then
         rarity = "3★"
-    elseif roll <= 85 then
+    elseif roll <= 175 then
         rarity = "4★"
     else
         rarity = "5★"

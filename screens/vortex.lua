@@ -15,6 +15,7 @@ function VortexScreen.mousepressed(x, y, button)
     if button == 1 and x >= 50 and x <= 200 and y >= 200 and y <= 350 then
         local unit, rarity = Summon.summonUnit()
         summonResult = {unit = unit, rarity = rarity}
+        -- print(summonResult.unit, " ", summonResult.rarity)
         -- print(screen)
         screen = "summon"
         -- print(screen)

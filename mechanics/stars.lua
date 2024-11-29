@@ -4,7 +4,7 @@ function Stars.generate(rarity)
     local starCounts = {
         ["3★"] = {5, 10},
         ["4★"] = {20, 50},
-        ["5★"] = {80, 100}
+        ["5★"] = {100, 200}
     }
 
     local range = starCounts[rarity]

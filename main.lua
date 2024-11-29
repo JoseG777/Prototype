@@ -3,7 +3,7 @@ local VortexScreen = require("screens.vortex")
 local SummonScreen = require("screens.summon_screen")
 
 screen = "vortex"
-local summonResult = nil
+summonResult = nil
 
 function love.load()
     love.window.setTitle("Summon System")
