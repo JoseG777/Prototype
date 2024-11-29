@@ -24,15 +24,14 @@ function Party.loadAssets()
         }
     end
 
-    Party.members = {"Swordsman", nil, "Archer"}
+    Party.members = {"Archer", nil, "Swordsman"}
 end
 
 function Party.update(dt)
-    for _, member in ipairs(Party.members) do
-        if member and Party.animations[member] then
-            Party.animations[member].idle:update(dt)
-        end
-    end
+
+    Party.animations["Swordsman"].idle:update(dt)
+    Party.animations["Archer"].idle:update(dt)
+
 end
 
 function Party.draw()
@@ -42,7 +41,7 @@ function Party.draw()
 
         if Party.members[i] then
             local member = Party.members[i]
-            Party.animations[member].idle:draw(x, y, member == "Archer")
+            Party.animations[member].idle:draw(x, y, true)
         else
             love.graphics.rectangle("line", x, y, 150, 80)
             love.graphics.printf("Empty", x, y + 20, 150, "center")
