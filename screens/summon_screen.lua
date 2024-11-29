@@ -20,7 +20,8 @@ end
 function SummonScreen.draw()
     love.graphics.clear(0, 0, 0)
     Stars.draw(stars)
-    love.graphics.printf("Summoning...", 0, 50, 800, "center")
+    love.graphics.printf("Summoning...", 0, 50, 550, "center")
+
 end
 
 return SummonScreen

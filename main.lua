@@ -6,8 +6,8 @@ screen = "vortex"
 summonResult = nil
 
 function love.load()
-    love.window.setTitle("Summon System")
-    love.window.setMode(800, 600)
+    love.window.setTitle("Prototype")
+    love.window.setMode(550, 800)
 end
 
 function love.draw()

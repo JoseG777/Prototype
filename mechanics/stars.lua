@@ -13,8 +13,8 @@ function Stars.generate(rarity)
     local stars = {}
     for i = 1, numStars do
         table.insert(stars, {
-            x = 400 + math.random(-200, 200),
-            y = 300 + math.random(-200, 200),
+            x = 275 + math.random(-150, 150), 
+            y = 400 + math.random(-200, 200),
             size = math.random(2, 4),
             alpha = 0
         })
