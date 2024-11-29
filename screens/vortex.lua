@@ -1,5 +1,5 @@
 local Summon = require("mechanics.summon")
-local SummonScreen = require("screens.summon")
+local SummonScreen = require("screens.summon_screen")
 
 local VortexScreen = {}
 

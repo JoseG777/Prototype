@@ -1,6 +1,6 @@
 local Party = require("mechanics.party")
 local VortexScreen = require("screens.vortex")
-local SummonScreen = require("screens.summon")
+local SummonScreen = require("screens.summon_screen")
 
 screen = "vortex"
 local summonResult = nil
