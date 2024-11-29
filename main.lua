@@ -11,6 +11,7 @@ function love.load()
     love.window.setTitle("Protoype")
     love.window.setMode(550, 800)
     background = love.graphics.newImage("assets/backgrounds/home.png")
+    Party.loadAssets()
 end
 
 function love.draw()
@@ -37,6 +38,9 @@ function love.mousepressed(x, y, button)
 end
 
 function love.update(dt)
+    if screen == "home" then
+        Party.update(dt)
+    end
     if screen == "summon" then
         SummonScreen.update(dt, function()
             screen = "home"

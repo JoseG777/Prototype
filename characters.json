@@ -1,0 +1,16 @@
+{
+    "Swordsman": {
+        "idle": {
+            "file": "assets/characters/swordsman/swordsman_idle.png",
+            "frameCount": 6,
+            "frameDuration": 0.1
+        }
+    },
+    "Archer": {
+        "idle": {
+            "file": "assets/characters/archer/archer_idle.png",
+            "frameCount": 6,
+            "frameDuration": 0.1
+        }
+    }
+}
