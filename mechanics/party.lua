@@ -19,7 +19,7 @@ function Party.loadAssets()
                 data.idle.file,
                 data.idle.frameCount,
                 data.idle.frameDuration,
-                2
+                2.5
             )
         }
     end

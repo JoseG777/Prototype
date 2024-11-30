@@ -1,6 +1,7 @@
 local Party = require("mechanics.party")
 local HomeScreen = require("screens.home")
 local SummonScreen = require("screens.summon_screen")
+local Vortex = require("mechanics.vortex")
 
 local background
 
@@ -13,6 +14,7 @@ function love.load()
     background = love.graphics.newImage("assets/backgrounds/home.png")
     math.randomseed(os.time())
     Party.loadAssets()
+    Vortex.load()
 end
 
 function love.draw()
@@ -22,6 +24,7 @@ function love.draw()
         local sy = 800 / bgHeight
         love.graphics.draw(background, 0, 0, 0, sx, sy) 
         HomeScreen.draw()
+        Vortex.draw()
         Party.draw()
     elseif screen == "summon" then
         SummonScreen.draw()
@@ -41,6 +44,7 @@ end
 function love.update(dt)
     if screen == "home" then
         Party.update(dt)
+        Vortex.update(dt)
     end
     if screen == "summon" then
         SummonScreen.update(dt, function()
