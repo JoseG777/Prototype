@@ -31,6 +31,9 @@ function Party.update(dt)
 
     Party.animations["Swordsman"].idle:update(dt)
     Party.animations["Archer"].idle:update(dt)
+    if Party.members[2] then
+        Party.animations[Party.members[2]].idle:update(dt)
+    end
 
 end
 

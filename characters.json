@@ -15,42 +15,42 @@
     },
     "Soldier": {
         "idle": {
-            "file": "assets/characters/archer/soldierr_idle.png",
+            "file": "assets/characters/soldier/soldier_idle.png",
             "frameCount": 6,
             "frameDuration": 0.1
         }
     },
     "Knight": {
         "idle": {
-            "file": "assets/characters/archer/knight_idle.png",
+            "file": "assets/characters/knight/knight_idle.png",
             "frameCount": 6,
             "frameDuration": 0.1
         }
     },
     "Wizard": {
         "idle": {
-            "file": "assets/characters/archer/wizard_idle.png",
+            "file": "assets/characters/wizard/wizard_idle.png",
             "frameCount": 6,
             "frameDuration": 0.1
         }
     },
     "Magic Knight": {
         "idle": {
-            "file": "assets/characters/archer/magic_knight_idle.png",
+            "file": "assets/characters/magic_knight/magic_knight_idle.png",
             "frameCount": 6,
             "frameDuration": 0.1
         }
     },
     "Lancer": {
         "idle": {
-            "file": "assets/characters/archer/lancer_idle.png",
+            "file": "assets/characters/lancer/lancer_idle.png",
             "frameCount": 6,
             "frameDuration": 0.1
         }
     },
     "Priest": {
         "idle": {
-            "file": "assets/characters/archer/priest_idle.png",
+            "file": "assets/characters/priest/priest_idle.png",
             "frameCount": 6,
             "frameDuration": 0.1
         }
