@@ -2,6 +2,7 @@ local Party = require("mechanics.party")
 local HomeScreen = require("screens.home")
 local SummonScreen = require("screens.summon_screen")
 local Vortex = require("mechanics.vortex")
+local BattleScreen = require("screens.battle_screen")
 
 local background
 
@@ -15,6 +16,7 @@ function love.load()
     math.randomseed(os.time())
     Party.loadAssets()
     Vortex.load()
+    BattleScreen.load()
 end
 
 function love.draw()
@@ -28,13 +30,20 @@ function love.draw()
         Party.draw()
     elseif screen == "summon" then
         SummonScreen.draw()
+    elseif screen == "battle" then
+        BattleScreen.draw()
+        Party.draw()
     end
 end
 
 function love.mousepressed(x, y, button)
     if button == 1 then
         if screen == "home" then
-            HomeScreen.mousepressed(x, y, button)
+            if Vortex.isClicked(x, y) then
+                screen = "battle"
+            else
+                HomeScreen.mousepressed(x, y, button)
+            end
         elseif screen == "summon" then
             SummonScreen.mousepressed()
         end
@@ -45,10 +54,11 @@ function love.update(dt)
     if screen == "home" then
         Party.update(dt)
         Vortex.update(dt)
-    end
-    if screen == "summon" then
+    elseif screen == "summon" then
         SummonScreen.update(dt, function()
             screen = "home"
         end)
+    elseif screen == "battle" then
+        Party.update(dt)
     end
 end
