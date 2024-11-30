@@ -60,5 +60,6 @@ function love.update(dt)
         end)
     elseif screen == "battle" then
         Party.update(dt)
+        BattleScreen.update(dt)
     end
 end

@@ -1,6 +1,6 @@
 local Animation = {}
 
-function Animation.new(filePath, frameCount, frameDuration, scaleFactor)
+function Animation.new(filePath, frameCount, frameDuration, scaleFactor, rows)
     local animation = {}
 
     animation.spriteSheet = love.graphics.newImage(filePath)
@@ -9,18 +9,21 @@ function Animation.new(filePath, frameCount, frameDuration, scaleFactor)
     animation.elapsedTime = 0
     animation.frameDuration = frameDuration
     animation.scale = scaleFactor or 1
+    animation.rows = rows or 1 
 
     local totalWidth = animation.spriteSheet:getWidth()
     local totalHeight = animation.spriteSheet:getHeight()
-    animation.frameWidth = totalWidth / frameCount
-    animation.frameHeight = totalHeight
+    animation.frameWidth = totalWidth / (frameCount / animation.rows)
+    animation.frameHeight = totalHeight / animation.rows
 
-    for i = 0, frameCount - 1 do
-        table.insert(animation.frames, love.graphics.newQuad(
-            i * animation.frameWidth, 0,
-            animation.frameWidth, animation.frameHeight,
-            totalWidth, totalHeight
-        ))
+    for row = 0, animation.rows - 1 do
+        for col = 0, (frameCount / animation.rows) - 1 do
+            table.insert(animation.frames, love.graphics.newQuad(
+                col * animation.frameWidth, row * animation.frameHeight,
+                animation.frameWidth, animation.frameHeight,
+                totalWidth, totalHeight
+            ))
+        end
     end
 
     function animation:update(dt)

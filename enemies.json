@@ -1,0 +1,15 @@
+{
+    "Reaper": {
+        "idle": {
+            "file": "assets/enemies/reaper/reaper_idle.png",
+            "frameCount": 8,
+            "frameDuration": 0.2,
+            "rows": 2
+        },
+        "position": {
+            "x": 125,
+            "y": 400
+        },
+        "scale": 4
+    }
+}
