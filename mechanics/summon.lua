@@ -1,7 +1,7 @@
 local Summon = {}
 
 local unitPools = {
-    ["3★"] = {"Swordsman", "Knight"},
+    ["3★"] = {"Soldier", "Knight"},
     ["4★"] = {"Wizard", "Magic Knight"},
     ["5★"] = {"Lancer", "Priest"}
 }

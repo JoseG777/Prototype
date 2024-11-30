@@ -19,7 +19,7 @@ function Party.loadAssets()
                 data.idle.file,
                 data.idle.frameCount,
                 data.idle.frameDuration,
-                1.5
+                2
             )
         }
     end
@@ -42,9 +42,6 @@ function Party.draw()
         if Party.members[i] then
             local member = Party.members[i]
             Party.animations[member].idle:draw(x, y, true)
-        else
-            love.graphics.rectangle("line", x, y, 150, 80)
-            love.graphics.printf("Empty", x, y + 20, 150, "center")
         end
     end
 end

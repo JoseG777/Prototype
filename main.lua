@@ -8,7 +8,7 @@ screen = "home"
 summonResult = nil
 
 function love.load()
-    love.window.setTitle("Protoype")
+    love.window.setTitle("Prototype")
     love.window.setMode(550, 800)
     background = love.graphics.newImage("assets/backgrounds/home.png")
     Party.loadAssets()
