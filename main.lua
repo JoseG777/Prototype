@@ -11,6 +11,7 @@ function love.load()
     love.window.setTitle("Prototype")
     love.window.setMode(550, 800)
     background = love.graphics.newImage("assets/backgrounds/home.png")
+    math.randomseed(os.time())
     Party.loadAssets()
 end
 
