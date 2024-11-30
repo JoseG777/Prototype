@@ -39,6 +39,30 @@
             "file": "assets/characters/magic_knight/magic_knight_idle.png",
             "frameCount": 6,
             "frameDuration": 0.1
+        },
+        "attack": {
+            "1": {
+                "file": "assets/characters/magic_knight/magic_knight_attack_1.png",
+                "frameCount": 7,
+                "frameDuration": 0.15
+            },
+            "2": {
+                "file": "assets/characters/magic_knight/magic_knight_attack_2.png",
+                "frameCount": 10,
+                "frameDuration": 0.12
+            },
+            "3": {
+                "file": "assets/characters/magic_knight/magic_knight_attack_3.png",
+                "frameCount": 11,
+                "frameDuration": 0.12
+            }
+        },
+        "stats": {
+            "HP": 150,
+            "MP": 100,
+            "ATK": 30,
+            "DEF": 15,
+            "MAG": 30
         }
     },
     "Lancer": {
