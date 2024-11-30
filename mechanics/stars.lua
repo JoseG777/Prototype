@@ -2,9 +2,9 @@ local Stars = {}
 
 function Stars.generate(rarity)
     local starCounts = {
-        ["3★"] = {5, 10},
-        ["4★"] = {20, 50},
-        ["5★"] = {100, 200}
+        ["3★"] = {10, 35},
+        ["4★"] = {60, 85},
+        ["5★"] = {110, 185}
     }
 
     local range = starCounts[rarity]
@@ -13,8 +13,8 @@ function Stars.generate(rarity)
     local stars = {}
     for i = 1, numStars do
         table.insert(stars, {
-            x = 275 + math.random(-150, 150), 
-            y = 400 + math.random(-200, 200),
+            x = math.random(0, 550), 
+            y = math.random(0, 800), 
             size = math.random(2, 4),
             alpha = 0
         })
