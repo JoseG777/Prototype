@@ -1,11 +1,13 @@
 local lunajson = require("mechanics.lunajson")
 local Animation = require("mechanics.animation")
+local Utils = require("utils")
 
 local Party = {}
 
 -- 550 / 2 = 275
 -- 275 / 2 = 137.5
-Party.members = {nil, nil, nil, nil, nil, nil} 
+Party.members = {nil, nil, nil, nil, nil, nil} -- max of 6 units
+Party.memberSkills = {nil, nil, nil, nil, nil, nil}
 Party.animations = {}
 Party.isBattleMode = false 
 Party.slots = { 
@@ -16,8 +18,18 @@ Party.slots = {
     {x = 137.5, y = 598}, -- Slot 5
     {x = 137.5, y = 680}  -- Slot 6
 }
+Party.attackSelectionMode = false
+Party.selectedUnit = nil
 
 function Party.addSummonedUnit(unit)
+    if not Party.members[1] then
+        Party.members[1] = unit
+        return
+    end
+    if not Party.members[2] then
+        Party.members[2] = unit
+        return
+    end
     if not Party.members[3] then
         Party.members[3] = unit
         return
@@ -54,8 +66,28 @@ function Party.loadAssets()
             )
         }
     end
+    Utils.printTable(characterData["Magic Knight"]["attack"])
 
-    Party.members = {"Archer", "Swordsman", nil, nil, "Lancer", "Wizard"}
+    Party.members = {"Archer", "Magic Knight", nil, nil, "Lancer", "Wizard"}
+
+    for name, data in pairs(Party.members) do
+        if name and characterData[data]["attack"] then
+            for _, atk_data in pairs(characterData[data]["attack"]) do
+                if not Party.memberSkills[data] then
+                    Party.memberSkills[data] = {}
+                end
+
+                local attack = Animation.new(
+                    atk_data.file,
+                    atk_data.frameCount,
+                    atk_data.frameDuration,
+                    2.5
+                )
+
+                table.insert(Party.memberSkills[data], attack)
+            end
+        end
+    end
 end
 
 function Party.update(dt)
@@ -95,7 +127,7 @@ function Party.draw()
         end
     end
 
-    if Party.isBattleMode then
+    if Party.isBattleMode and not Party.attackSelectionMode then
         for i, slot in ipairs(Party.slots) do
             if Party.members[i] then
                 local member = Party.members[i]
@@ -103,10 +135,6 @@ function Party.draw()
                 love.graphics.setColor(0, 0, 0, 1)
                 love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
                 love.graphics.setColor(1, 1, 1, 1)
-
-
-                love.graphics.setColor(1, 1, 1, 1)
-                love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
 
                 love.graphics.printf(
                     member .. "\nHP: 100/100", -- temp place holder
@@ -116,16 +144,31 @@ function Party.draw()
                     "center"
                 )
             else
+                love.graphics.setColor(0, 0, 0, 1)
+                love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
+                love.graphics.setColor(1, 1, 1, 1) 
+                love.graphics.printf("Empty", slot.x - 137.5, slot.y + 35, 275, "center")  
+            end
+            love.graphics.setColor(1, 1, 1, 1)
+            love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
+        end
+    elseif Party.isBattleMode and Party.attackSelectionMode then
+        -- selected unit show their skills
+        for i, slot in ipairs(Party.slots) do
+            if i == 3 then
+                love.graphics.setColor(0, 0, 0, 1)
+                love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
+                love.graphics.setColor(1, 1, 1, 1) 
+                love.graphics.printf("Exit", slot.x - 137.5, slot.y + 35, 275, "center")
+            else
 
                 love.graphics.setColor(0, 0, 0, 1)
                 love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
                 love.graphics.setColor(1, 1, 1, 1) 
                 love.graphics.printf("Empty", slot.x - 137.5, slot.y + 35, 275, "center")
-
-                love.graphics.setColor(1, 1, 1, 1)
-                love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
-         
             end
+            love.graphics.setColor(1, 1, 1, 1)
+            love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
         end
     end
 end

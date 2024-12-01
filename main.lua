@@ -51,9 +51,51 @@ function love.mousepressed(x, y, button)
             end
         elseif screen == "summon" then
             SummonScreen.mousepressed()
+        elseif screen == "battle" then
+            if Party.isBattleMode and not Party.attackSelectionMode then
+                for i, slot in ipairs(Party.slots) do
+                    local rectX, rectY = slot.x - 137.5, slot.y + 10
+                    local rectWidth, rectHeight = 275, 82
+        
+                    if x >= rectX and x <= rectX + rectWidth and y >= rectY and y <= rectY + rectHeight then
+                        if Party.members[i] then
+                            local clickedMember = Party.members[i]
+                            -- print("Clicked on:", clickedMember)
+                            Party.attackSelectionMode = true
+                            Party.selectedUnit = clickedMember
+                        end
+                    end
+                end
+            elseif Party.isBattleMode and Party.attackSelectionMode then
+                if x >= 275 and x <= 550 and y >= 680 and y <= 800 then -- exit condition
+                    Party.attackSelectionMode = false
+                end
+                --for i, skill in ipairs(Party.selectedUnit)
+                --    print()
+                --end
+            end
         end
     end
 end
+
+--[[function love.mousepressed(x, y, button)
+    if button == 1 and Party.isBattleMode and not Party.attackSelectionMode then
+        for i, slot in ipairs(Party.slots) do
+            local rectX, rectY = slot.x - 137.5, slot.y + 10
+            local rectWidth, rectHeight = 275, 82
+            print(rectX, rectY)
+
+            if x >= rectX and x <= rectX + rectWidth and y >= rectY and y <= rectY + rectHeight then
+                if Party.members[i] then
+                    local clickedMember = Party.members[i]
+                    print("Clicked on:", clickedMember)
+                    Party.attackSelectionMode = true
+                    Party.selectedUnit = clickedMember
+                end
+            end
+        end
+    end
+end]]
 
 function love.update(dt)
     if screen == "home" then
