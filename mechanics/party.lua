@@ -78,13 +78,25 @@ function Party.update(dt)
 end
 
 function Party.draw()
+    for i = 1, 3 do
+        local x = 375
+        local y = 220 + (i - 1) * 100
+
+        if Party.members[i + 3] then
+            local memberLeft = Party.members[i + 3]
+            Party.animations[memberLeft].idle:draw(x - 300, y, false)
+        end
+
+        if Party.members[i] then
+            local memberRight = Party.members[i]
+            Party.animations[memberRight].idle:draw(x, y, true)
+        end
+    end
+
     if Party.isBattleMode then
         for i, slot in ipairs(Party.slots) do
             if Party.members[i] then
                 local member = Party.members[i]
-                local anim = Party.animations[member].idle
-
-                anim:draw(slot.x, slot.y, true)
 
                 love.graphics.printf(
                     member .. "\nHP: 100",
@@ -98,21 +110,8 @@ function Party.draw()
                 love.graphics.printf("Empty", slot.x - 40, slot.y + 30, 80, "center")
             end
         end
-    else
-        for i = 1, 3 do
-            local x = 375
-            local y = 220 + (i - 1) * 100
-
-            if Party.members[i] then
-                local member = Party.members[i]
-                Party.animations[member].idle:draw(x, y, true)
-            end
-            if Party.members[i + 3] then
-                local member2 = Party.members[i + 3]
-                Party.animations[member2].idle:draw(x - 85, y, true)
-            end
-        end
     end
 end
+
 
 return Party

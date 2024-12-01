@@ -21,7 +21,6 @@ end
 
 function love.draw()
     if screen == "home" then
-        -- Set Party to display mode for the home screen
         Party.isBattleMode = false
 
         local bgWidth, bgHeight = background:getDimensions()
@@ -31,15 +30,14 @@ function love.draw()
 
         HomeScreen.draw()
         Vortex.draw()
-        Party.draw() -- Draw the party (in display mode)
+        Party.draw() 
     elseif screen == "summon" then
         SummonScreen.draw()
     elseif screen == "battle" then
-        -- Set Party to battle mode for the battle screen
         Party.isBattleMode = true
 
         BattleScreen.draw()
-        Party.draw() -- Draw the party (in battle mode with slots)
+        Party.draw() 
     end
 end
 
@@ -59,15 +57,15 @@ end
 
 function love.update(dt)
     if screen == "home" then
-        Party.update(dt) -- Update party animations
-        Vortex.update(dt) -- Update the vortex animation
+        Party.update(dt)
+        Vortex.update(dt)
     elseif screen == "summon" then
         SummonScreen.update(dt, function()
             screen = "home"
         end)
     elseif screen == "battle" then
-        Party.update(dt) -- Update party animations
-        BattleScreen.update(dt) -- Update battle-related logic
+        Party.update(dt) 
+        BattleScreen.update(dt)
     end
 end
 
