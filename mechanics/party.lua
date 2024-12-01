@@ -3,16 +3,18 @@ local Animation = require("mechanics.animation")
 
 local Party = {}
 
+-- 550 / 2 = 275
+-- 275 / 2 = 137.5
 Party.members = {nil, nil, nil, nil, nil, nil} 
 Party.animations = {}
 Party.isBattleMode = false 
 Party.slots = { 
-    {x = 100, y = 650}, 
-    {x = 200, y = 650}, 
-    {x = 300, y = 650}, 
-    {x = 400, y = 650}, 
-    {x = 500, y = 650}, 
-    {x = 600, y = 650}  
+    {x = 412.5, y = 500}, -- Slot 1
+    {x = 412.5, y = 600}, -- Slot 2
+    {x = 412.5, y = 700}, -- Slot 3
+    {x = 137.5, y = 500}, -- Slot 4
+    {x = 137.5, y = 600}, -- Slot 5
+    {x = 137.5, y = 700}  -- Slot 6
 }
 
 function Party.addSummonedUnit(unit)
@@ -80,7 +82,7 @@ end
 function Party.draw()
     for i = 1, 3 do
         local x = 375
-        local y = 220 + (i - 1) * 100
+        local y = 150 + (i - 1) * 100
 
         if Party.members[i + 3] then
             local memberLeft = Party.members[i + 3]
@@ -98,8 +100,13 @@ function Party.draw()
             if Party.members[i] then
                 local member = Party.members[i]
 
+                if i == 3 or i == 6 then
+                    love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 62)
+                else
+                    love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 100)
+                end
                 love.graphics.printf(
-                    member .. "\nHP: 100",
+                    member .. "\nHP: 100/100", -- temp place holder
                     slot.x - 40,
                     slot.y + 30,
                     80,
