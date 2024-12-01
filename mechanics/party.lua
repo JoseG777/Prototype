@@ -53,7 +53,7 @@ function Party.loadAssets()
         }
     end
 
-    Party.members = {"Archer", "Swordsman", nil, nil, nil, nil}
+    Party.members = {"Archer", "Swordsman", "Priest", "Magic Knight", "Lancer", "Wizard"}
 end
 
 function Party.update(dt)
@@ -84,7 +84,7 @@ function Party.draw()
 
         if Party.members[i + 3] then
             local memberLeft = Party.members[i + 3]
-            Party.animations[memberLeft].idle:draw(x - 300, y, false)
+            Party.animations[memberLeft].idle:draw(x - 100, y, true)
         end
 
         if Party.members[i] then

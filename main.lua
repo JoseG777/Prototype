@@ -6,7 +6,7 @@ local BattleScreen = require("screens.battle_screen")
 
 local background
 
-screen = "home"
+screen = "battle"
 summonResult = nil
 
 function love.load()
