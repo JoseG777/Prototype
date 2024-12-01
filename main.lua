@@ -1,4 +1,4 @@
---[[ local Party = require("mechanics.party")
+local Party = require("mechanics.party")
 local HomeScreen = require("screens.home")
 local SummonScreen = require("screens.summon_screen")
 local Vortex = require("mechanics.vortex")
@@ -21,18 +21,25 @@ end
 
 function love.draw()
     if screen == "home" then
+        -- Set Party to display mode for the home screen
+        Party.isBattleMode = false
+
         local bgWidth, bgHeight = background:getDimensions()
         local sx = 550 / bgWidth
         local sy = 800 / bgHeight
-        love.graphics.draw(background, 0, 0, 0, sx, sy) 
+        love.graphics.draw(background, 0, 0, 0, sx, sy)
+
         HomeScreen.draw()
         Vortex.draw()
-        Party.draw()
+        Party.draw() -- Draw the party (in display mode)
     elseif screen == "summon" then
         SummonScreen.draw()
     elseif screen == "battle" then
+        -- Set Party to battle mode for the battle screen
+        Party.isBattleMode = true
+
         BattleScreen.draw()
-        Party.draw()
+        Party.draw() -- Draw the party (in battle mode with slots)
     end
 end
 
@@ -52,20 +59,21 @@ end
 
 function love.update(dt)
     if screen == "home" then
-        Party.update(dt)
-        Vortex.update(dt)
+        Party.update(dt) -- Update party animations
+        Vortex.update(dt) -- Update the vortex animation
     elseif screen == "summon" then
         SummonScreen.update(dt, function()
             screen = "home"
         end)
     elseif screen == "battle" then
-        Party.update(dt)
-        BattleScreen.update(dt)
+        Party.update(dt) -- Update party animations
+        BattleScreen.update(dt) -- Update battle-related logic
     end
 end
- ]]
 
- local lunajson = require("mechanics.lunajson")
+
+
+--[[ local lunajson = require("mechanics.lunajson")
  local Animation = require("mechanics.animation")
  local Combat = require("mechanics.combat")
  local Utils = require("utils")
@@ -152,4 +160,5 @@ end
          )
      end
  end
- 
+]]
+

@@ -1,9 +1,38 @@
 local lunajson = require("mechanics.lunajson")
 local Animation = require("mechanics.animation")
+
 local Party = {}
 
-Party.members = {nil, nil, nil}
+Party.members = {nil, nil, nil, nil, nil, nil} 
 Party.animations = {}
+Party.isBattleMode = false 
+Party.slots = { 
+    {x = 100, y = 650}, 
+    {x = 200, y = 650}, 
+    {x = 300, y = 650}, 
+    {x = 400, y = 650}, 
+    {x = 500, y = 650}, 
+    {x = 600, y = 650}  
+}
+
+function Party.addSummonedUnit(unit)
+    if not Party.members[3] then
+        Party.members[3] = unit
+        return
+    end
+    if not Party.members[4] then
+        Party.members[4] = unit
+        return
+    end
+    if not Party.members[5] then
+        Party.members[5] = unit
+        return
+    end
+    if not Party.members[6] then
+        Party.members[6] = unit
+        return
+    end
+end
 
 function Party.loadAssets()
     local jsonData = love.filesystem.read("characters.json")
@@ -24,33 +53,66 @@ function Party.loadAssets()
         }
     end
 
-    Party.members = {"Archer", nil, "Swordsman"}
+    Party.members = {"Archer", "Swordsman", nil, nil, nil, nil}
 end
 
 function Party.update(dt)
-
-    Party.animations["Swordsman"].idle:update(dt)
-    Party.animations["Archer"].idle:update(dt)
+    if Party.members[1] then
+        Party.animations[Party.members[1]].idle:update(dt)
+    end
     if Party.members[2] then
         Party.animations[Party.members[2]].idle:update(dt)
     end
-
-end
-
-function Party.draw()
-    for i = 1, 3 do
-        local x = 375
-        local y = 220 + (i - 1) * 100
-
-        if Party.members[i] then
-            local member = Party.members[i]
-            Party.animations[member].idle:draw(x, y, true)
-        end
+    if Party.members[3] then
+        Party.animations[Party.members[3]].idle:update(dt)
+    end
+    if Party.members[4] then
+        Party.animations[Party.members[4]].idle:update(dt)
+    end
+    if Party.members[5] then
+        Party.animations[Party.members[5]].idle:update(dt)
+    end
+    if Party.members[6] then
+        Party.animations[Party.members[6]].idle:update(dt)
     end
 end
 
-function Party.replaceLast(unit)
-    Party.members[2] = unit
+function Party.draw()
+    if Party.isBattleMode then
+        for i, slot in ipairs(Party.slots) do
+            if Party.members[i] then
+                local member = Party.members[i]
+                local anim = Party.animations[member].idle
+
+                anim:draw(slot.x, slot.y, true)
+
+                love.graphics.printf(
+                    member .. "\nHP: 100",
+                    slot.x - 40,
+                    slot.y + 30,
+                    80,
+                    "center"
+                )
+            else
+                love.graphics.rectangle("line", slot.x - 40, slot.y - 10, 80, 60)
+                love.graphics.printf("Empty", slot.x - 40, slot.y + 30, 80, "center")
+            end
+        end
+    else
+        for i = 1, 3 do
+            local x = 375
+            local y = 220 + (i - 1) * 100
+
+            if Party.members[i] then
+                local member = Party.members[i]
+                Party.animations[member].idle:draw(x, y, true)
+            end
+            if Party.members[i + 3] then
+                local member2 = Party.members[i + 3]
+                Party.animations[member2].idle:draw(x - 85, y, true)
+            end
+        end
+    end
 end
 
 return Party
