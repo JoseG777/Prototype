@@ -9,12 +9,12 @@ Party.members = {nil, nil, nil, nil, nil, nil}
 Party.animations = {}
 Party.isBattleMode = false 
 Party.slots = { 
-    {x = 412.5, y = 500}, -- Slot 1
-    {x = 412.5, y = 600}, -- Slot 2
-    {x = 412.5, y = 700}, -- Slot 3
-    {x = 137.5, y = 500}, -- Slot 4
-    {x = 137.5, y = 600}, -- Slot 5
-    {x = 137.5, y = 700}  -- Slot 6
+    {x = 412.5, y = 516}, -- Slot 1 560, 630, 700
+    {x = 412.5, y = 598}, -- Slot 2
+    {x = 412.5, y = 680}, -- Slot 3
+    {x = 137.5, y = 516}, -- Slot 4
+    {x = 137.5, y = 598}, -- Slot 5
+    {x = 137.5, y = 680}  -- Slot 6
 }
 
 function Party.addSummonedUnit(unit)
@@ -99,24 +99,14 @@ function Party.draw()
         for i, slot in ipairs(Party.slots) do
             if Party.members[i] then
                 local member = Party.members[i]
+  
+                love.graphics.setColor(0, 0, 0, 1)
+                love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
+                love.graphics.setColor(1, 1, 1, 1)
 
-                if i == 3 or i == 6 then
-                    love.graphics.setColor(0, 0, 0, 1)
-                    love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 62)
-                    love.graphics.setColor(1, 1, 1, 1) 
-                else
-                    love.graphics.setColor(0, 0, 0, 1)
-                    love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 100)
-                    love.graphics.setColor(1, 1, 1, 1)
-                end
-            
-                if i == 3 or i == 6 then
-                    love.graphics.setColor(1, 1, 1, 1)
-                    love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 62)
-                else
-                    love.graphics.setColor(1, 1, 1, 1)
-                    love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 100)
-                end
+
+                love.graphics.setColor(1, 1, 1, 1)
+                love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
 
                 love.graphics.printf(
                     member .. "\nHP: 100/100", -- temp place holder
@@ -126,25 +116,15 @@ function Party.draw()
                     "center"
                 )
             else
-                if i == 3 or i == 6 then
-                    love.graphics.setColor(0, 0, 0, 1)
-                    love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 62)
-                    love.graphics.setColor(1, 1, 1, 1) 
-                    love.graphics.printf("Empty", slot.x - 137.5, slot.y + 25, 275, "center")
-                else
-                    love.graphics.setColor(0, 0, 0, 1)
-                    love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 100)
-                    love.graphics.setColor(1, 1, 1, 1) 
-                    love.graphics.printf("Empty", slot.x - 137.5, slot.y + 50, 275, "center")
-                end
 
-                if i == 3 or i == 6 then
-                    love.graphics.setColor(1, 1, 1, 1)
-                    love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 62)
-                else
-                    love.graphics.setColor(1, 1, 1, 1)
-                    love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 100)
-                end
+                love.graphics.setColor(0, 0, 0, 1)
+                love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
+                love.graphics.setColor(1, 1, 1, 1) 
+                love.graphics.printf("Empty", slot.x - 137.5, slot.y + 35, 275, "center")
+
+                love.graphics.setColor(1, 1, 1, 1)
+                love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
+         
             end
         end
     end
