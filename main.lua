@@ -6,7 +6,7 @@ local BattleScreen = require("screens.battle_screen")
 
 local background
 
-screen = "battle"
+screen = "battle" -- starting screen, change for testing
 summonResult = nil
 
 function love.load()
@@ -52,50 +52,11 @@ function love.mousepressed(x, y, button)
         elseif screen == "summon" then
             SummonScreen.mousepressed()
         elseif screen == "battle" then
-            if Party.isBattleMode and not Party.attackSelectionMode then
-                for i, slot in ipairs(Party.slots) do
-                    local rectX, rectY = slot.x - 137.5, slot.y + 10
-                    local rectWidth, rectHeight = 275, 82
-        
-                    if x >= rectX and x <= rectX + rectWidth and y >= rectY and y <= rectY + rectHeight then
-                        if Party.members[i] then
-                            local clickedMember = Party.members[i]
-                            -- print("Clicked on:", clickedMember)
-                            Party.attackSelectionMode = true
-                            Party.selectedUnit = clickedMember
-                        end
-                    end
-                end
-            elseif Party.isBattleMode and Party.attackSelectionMode then
-                if x >= 275 and x <= 550 and y >= 680 and y <= 800 then -- exit condition
-                    Party.attackSelectionMode = false
-                end
-                --for i, skill in ipairs(Party.selectedUnit)
-                --    print()
-                --end
-            end
+            Party.mousepressed(x, y, button) 
         end
     end
 end
 
---[[function love.mousepressed(x, y, button)
-    if button == 1 and Party.isBattleMode and not Party.attackSelectionMode then
-        for i, slot in ipairs(Party.slots) do
-            local rectX, rectY = slot.x - 137.5, slot.y + 10
-            local rectWidth, rectHeight = 275, 82
-            print(rectX, rectY)
-
-            if x >= rectX and x <= rectX + rectWidth and y >= rectY and y <= rectY + rectHeight then
-                if Party.members[i] then
-                    local clickedMember = Party.members[i]
-                    print("Clicked on:", clickedMember)
-                    Party.attackSelectionMode = true
-                    Party.selectedUnit = clickedMember
-                end
-            end
-        end
-    end
-end]]
 
 function love.update(dt)
     if screen == "home" then
@@ -110,95 +71,3 @@ function love.update(dt)
         BattleScreen.update(dt)
     end
 end
-
-
-
---[[ local lunajson = require("mechanics.lunajson")
- local Animation = require("mechanics.animation")
- local Combat = require("mechanics.combat")
- local Utils = require("utils")
- 
- local reaper, magicKnight, combatState
- cachedAnimations = {}
-
- 
- function love.load()
-     love.window.setTitle("Battle Scene")
-     love.window.setMode(550, 800)
- 
-     -- Load JSON for character and enemy
-     local charactersJson = love.filesystem.read("characters.json")
-     local enemiesJson = love.filesystem.read("enemies.json")
- 
-     local charactersData = lunajson.decode(charactersJson)
-     local enemiesData = lunajson.decode(enemiesJson)
- 
-     -- Reaper (Enemy)
-     local reaperData = enemiesData["Reaper"]
-     reaper = {
-         name = reaperData.name,
-         idleAnimation = Animation.new(
-             reaperData.idle.file,
-             reaperData.idle.frameCount,
-             reaperData.idle.frameDuration,
-             3,
-             reaperData.idle.rows
-         ),
-         position = {x = -50, y = 350},
-         animation = nil
-     }
-     reaper.animation = reaper.idleAnimation
- 
-     -- Magic Knight (Character)
-     local magicKnightData = charactersData["Magic Knight"]
-     magicKnight = {
-         name = magicKnightData.name,
-         idleAnimation = Animation.new(
-             magicKnightData.idle.file,
-             magicKnightData.idle.frameCount,
-             magicKnightData.idle.frameDuration,
-             2.5
-         ),
-         position = {x = 375, y = 425},
-         animation = nil
-     }
-     magicKnight.animation = magicKnight.idleAnimation
- 
-     -- Initialize combatState as nil
-     combatState = nil
- end
- 
- function love.update(dt)
-     if combatState then
-         combatState:update(dt)
-     else
-         reaper.animation:update(dt)
-         magicKnight.animation:update(dt)
-     end
- end
- 
- function love.draw()
-     love.graphics.clear(1, 1, 1)
- 
-     if combatState then
-         combatState:draw()
-     else
-         reaper.animation:draw(reaper.position.x, reaper.position.y, false)
-         magicKnight.animation:draw(magicKnight.position.x, magicKnight.position.y, true)
-     end
- end
- 
- function love.keypressed(key)
-     if not combatState and key == "space" then
-         combatState = Combat.performAttack(
-             magicKnight,
-             reaper,
-             3,
-             function()
-                 combatState = nil
-             end
-         )
-     end
- end
-]]
-

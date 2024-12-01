@@ -5,13 +5,15 @@ local Utils = require("utils")
 local Party = {}
 
 Party.members = {"Archer", "Magic Knight", nil, nil, "Lancer", "Wizard"} -- max of 6 units
-Party.memberSkills = {
-    {nil, nil, nil, nil, nil}, 
-    {nil, nil, nil, nil, nil},
-    {nil, nil, nil, nil, nil},
-    {nil, nil, nil, nil, nil},
-    {nil, nil, nil, nil, nil},
-    {nil, nil, nil, nil, nil}} -- max of 5 skills per unit
+Party.selectedAttack = {
+    ["Archer"] = nil,
+    ["Magic Knight"] = nil,
+    nil,
+    nil,
+    ["Lancer"] = nil,
+    ["Wizard"] = nil
+} -- only one loaded attack for now
+Party.memberSkills = {} -- max of 5 skills per unit
 Party.animations = {}
 Party.isBattleMode = false 
 Party.slots = { 
@@ -49,6 +51,13 @@ function Party.addSummonedUnit(unit)
     if not Party.members[6] then
         Party.members[6] = unit
         return
+    end
+end
+
+function Party.selectAttack(skillIndex)
+    if Party.selectedUnit and Party.memberSkills[Party.selectedUnit] then
+        Party.members[Party.selectedUnit].selectedAttack = skillIndex
+        Party.attackSelectionMode = false
     end
 end
 
@@ -178,6 +187,39 @@ function Party.draw()
             love.graphics.setColor(1, 1, 1, 1)
             love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
         end      
+    end
+end
+
+function Party.mousepressed(x, y, button)
+    if button ~= 1 then return end -- Only respond to left-clicks
+
+    if Party.attackSelectionMode then
+        -- Handle skill selection
+        local skills = Party.memberSkills[Party.selectedUnit]
+        for i, slot in ipairs(Party.slots) do
+            if i == 6 then -- Exit button
+                if x >= slot.x - 137.5 and x <= slot.x + 137.5 and y >= slot.y + 10 and y <= slot.y + 92 then
+                    Party.attackSelectionMode = false
+                    Party.selectedUnit = nil
+                    return
+                end
+            elseif skills and skills[i] then
+                if x >= slot.x - 137.5 and x <= slot.x + 137.5 and y >= slot.y + 10 and y <= slot.y + 92 then
+                    Party.selectedAttack[Party.selectedUnit] = skills[i][1]
+                    Party.attackSelectionMode = false
+                    Party.selectedUnit = nil
+                    return
+                end
+            end
+        end
+    else
+        for i, slot in ipairs(Party.slots) do
+            if Party.members[i] and x >= slot.x - 137.5 and x <= slot.x + 137.5 and y >= slot.y + 10 and y <= slot.y + 92 then
+                Party.attackSelectionMode = true
+                Party.selectedUnit = Party.members[i]
+                return
+            end
+        end
     end
 end
 
