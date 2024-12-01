@@ -1,10 +1,17 @@
 local lunajson = require("mechanics.lunajson")
 local Animation = require("mechanics.animation")
+local Combat = require("mechanics.combat")
 local Utils = require("utils")
 
 local Party = {}
 
-Party.members = {"Archer", "Magic Knight", nil, nil, "Lancer", "Wizard"} -- max of 6 units
+--[[
+select attack
+attack is ready
+if attack is ready, on click of character perform attack
+]]
+
+Party.members = {"Archer", "Magic Knight", "Soldier", "Priest", "Lancer", "Wizard"} -- max of 6 units
 Party.selectedAttack = {
     ["Archer"] = nil,
     ["Magic Knight"] = nil,
@@ -13,6 +20,7 @@ Party.selectedAttack = {
     ["Lancer"] = nil,
     ["Wizard"] = nil
 } -- only one loaded attack for now
+
 Party.memberSkills = {} -- max of 5 skills per unit
 Party.animations = {}
 Party.isBattleMode = false 
@@ -24,8 +32,18 @@ Party.slots = {
     {x = 137.5, y = 680}, -- Slot 5 {x = 137.5, y = 598}
     {x = 412.5, y = 680}  -- Slot 6 {x = 137.5, y = 680}
 }
+
 Party.attackSelectionMode = false
 Party.selectedUnit = nil
+Party.predefinedRects = {
+    {leftX = 375, upperY = 250}, -- Slot 1
+    {leftX = 475, upperY = 250}, -- Slot 2
+    {leftX = 375, upperY = 350}, -- Slot 3
+    {leftX = 475, upperY = 350}, -- Slot 4
+    {leftX = 375, upperY = 450}, -- Slot 5
+    {leftX = 475, upperY = 450}, -- Slot 6
+}
+Party.currentAnimation = nil
 
 function Party.addSummonedUnit(unit)
     if not Party.members[1] then
@@ -123,15 +141,23 @@ function Party.update(dt)
     if Party.members[6] then
         Party.animations[Party.members[6]].idle:update(dt)
     end
+
+    --[[if Party.currentAnimation then
+        Party.currentAnimation.animation:update(dt)
+    end]]
 end
 
 function Party.draw()
     -- {"Archer", "Magic Knight", nil, nil, "Lancer", "Wizard"}
+    --[[if Party.currentAnimation then
+        Party.currentAnimation.animation:draw(250, 250, true)
+    end]]
+
     for i = 1, 6 do
         local isLeftSide = i % 2 == 1 
         local columnOffset = isLeftSide and -100 or 0 
         local rowIndex = math.ceil(i / 2) 
-        local x = 375 + columnOffset
+        local x = 375 + columnOffset 
         local y = 150 + (rowIndex - 1) * 100 
     
         if Party.members[i] then
@@ -139,8 +165,19 @@ function Party.draw()
             Party.animations[member].idle:draw(x, y, true)
         end
     end
-    
 
+    --[[for i, rect in ipairs(Party.predefinedRects) do
+        love.graphics.setColor(0, 1, 0, 0.3) 
+        love.graphics.rectangle(
+            "fill", 
+            rect.leftX, 
+            rect.upperY, 
+            50,
+            50
+        )
+    end
+    love.graphics.setColor(1, 1, 1, 1)]]
+    
     if Party.isBattleMode and not Party.attackSelectionMode then
         for i, slot in ipairs(Party.slots) do
             if Party.members[i] then
@@ -191,10 +228,9 @@ function Party.draw()
 end
 
 function Party.mousepressed(x, y, button)
-    if button ~= 1 then return end -- Only respond to left-clicks
-
+    if button ~= 1 then return end
+    
     if Party.attackSelectionMode then
-        -- Handle skill selection
         local skills = Party.memberSkills[Party.selectedUnit]
         for i, slot in ipairs(Party.slots) do
             if i == 6 then -- Exit button
@@ -219,7 +255,25 @@ function Party.mousepressed(x, y, button)
                 Party.selectedUnit = Party.members[i]
                 return
             end
+        end 
+
+        -- Party.selectedAttack
+        for i, box in ipairs(Party.predefinedRects) do
+            local curr_member = Party.members[i]
+            if curr_member and Party.selectedAttack[curr_member] and x >= box.leftX and x <= box.leftX + 50 and y >= box.upperY and y <= box.upperY + 50 then
+                --[[Party.currentAnimation = {
+                    animation = Party.selectedAttack[curr_member],
+                    x = box.leftX + 25, 
+                    y = box.upperY + 25, 
+                    isPlaying = true
+                }]]
+                
+    
+                Party.selectedAttack[curr_member] = nil
+            end
         end
+
+
     end
 end
 
