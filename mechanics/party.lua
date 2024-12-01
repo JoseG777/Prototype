@@ -101,10 +101,23 @@ function Party.draw()
                 local member = Party.members[i]
 
                 if i == 3 or i == 6 then
+                    love.graphics.setColor(0, 0, 0, 1)
+                    love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 62)
+                    love.graphics.setColor(1, 1, 1, 1) 
+                else
+                    love.graphics.setColor(0, 0, 0, 1)
+                    love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 100)
+                    love.graphics.setColor(1, 1, 1, 1)
+                end
+            
+                if i == 3 or i == 6 then
+                    love.graphics.setColor(1, 1, 1, 1)
                     love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 62)
                 else
+                    love.graphics.setColor(1, 1, 1, 1)
                     love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 100)
                 end
+
                 love.graphics.printf(
                     member .. "\nHP: 100/100", -- temp place holder
                     slot.x - 40,
@@ -114,11 +127,23 @@ function Party.draw()
                 )
             else
                 if i == 3 or i == 6 then
-                    love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 62)
+                    love.graphics.setColor(0, 0, 0, 1)
+                    love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 62)
+                    love.graphics.setColor(1, 1, 1, 1) 
                     love.graphics.printf("Empty", slot.x - 137.5, slot.y + 25, 275, "center")
                 else
-                    love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 100)
+                    love.graphics.setColor(0, 0, 0, 1)
+                    love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 100)
+                    love.graphics.setColor(1, 1, 1, 1) 
                     love.graphics.printf("Empty", slot.x - 137.5, slot.y + 50, 275, "center")
+                end
+
+                if i == 3 or i == 6 then
+                    love.graphics.setColor(1, 1, 1, 1)
+                    love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 62)
+                else
+                    love.graphics.setColor(1, 1, 1, 1)
+                    love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 100)
                 end
             end
         end
