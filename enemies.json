@@ -1,5 +1,6 @@
 {
     "Reaper": {
+        "name": "Reaper",
         "idle": {
             "file": "assets/enemies/reaper/reaper_idle.png",
             "frameCount": 8,

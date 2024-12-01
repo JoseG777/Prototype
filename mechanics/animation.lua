@@ -49,6 +49,10 @@ function Animation.new(filePath, frameCount, frameDuration, scaleFactor, rows)
         )
     end
 
+    function animation:getDuration()
+        return frameCount * frameDuration
+    end
+    
     return animation
 end
 
