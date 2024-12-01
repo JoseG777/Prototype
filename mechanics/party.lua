@@ -55,7 +55,7 @@ function Party.loadAssets()
         }
     end
 
-    Party.members = {"Archer", "Swordsman", "Priest", "Magic Knight", "Lancer", "Wizard"}
+    Party.members = {"Archer", "Swordsman", nil, nil, "Lancer", "Wizard"}
 end
 
 function Party.update(dt)
@@ -113,8 +113,13 @@ function Party.draw()
                     "center"
                 )
             else
-                love.graphics.rectangle("line", slot.x - 40, slot.y - 10, 80, 60)
-                love.graphics.printf("Empty", slot.x - 40, slot.y + 30, 80, "center")
+                if i == 3 or i == 6 then
+                    love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 62)
+                    love.graphics.printf("Empty", slot.x - 137.5, slot.y + 25, 275, "center")
+                else
+                    love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 100)
+                    love.graphics.printf("Empty", slot.x - 137.5, slot.y + 50, 275, "center")
+                end
             end
         end
     end
