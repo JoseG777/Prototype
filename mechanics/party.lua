@@ -4,19 +4,23 @@ local Utils = require("utils")
 
 local Party = {}
 
--- 550 / 2 = 275
--- 275 / 2 = 137.5
-Party.members = {nil, nil, nil, nil, nil, nil} -- max of 6 units
-Party.memberSkills = {nil, nil, nil, nil, nil, nil}
+Party.members = {"Archer", "Magic Knight", nil, nil, "Lancer", "Wizard"} -- max of 6 units
+Party.memberSkills = {
+    {nil, nil, nil, nil, nil}, 
+    {nil, nil, nil, nil, nil},
+    {nil, nil, nil, nil, nil},
+    {nil, nil, nil, nil, nil},
+    {nil, nil, nil, nil, nil},
+    {nil, nil, nil, nil, nil}} -- max of 5 skills per unit
 Party.animations = {}
 Party.isBattleMode = false 
 Party.slots = { 
-    {x = 412.5, y = 516}, -- Slot 1 560, 630, 700
-    {x = 412.5, y = 598}, -- Slot 2
-    {x = 412.5, y = 680}, -- Slot 3
-    {x = 137.5, y = 516}, -- Slot 4
-    {x = 137.5, y = 598}, -- Slot 5
-    {x = 137.5, y = 680}  -- Slot 6
+    {x = 137.5, y = 516}, -- Slot 1 {x = 412.5, y = 516}
+    {x = 412.5, y = 516}, -- Slot 2 {x = 412.5, y = 598}
+    {x = 137.5, y = 598}, -- Slot 3 {x = 412.5, y = 680}
+    {x = 412.5, y = 598}, -- Slot 4 {x = 137.5, y = 516}
+    {x = 137.5, y = 680}, -- Slot 5 {x = 137.5, y = 598}
+    {x = 412.5, y = 680}  -- Slot 6 {x = 137.5, y = 680}
 }
 Party.attackSelectionMode = false
 Party.selectedUnit = nil
@@ -66,15 +70,12 @@ function Party.loadAssets()
             )
         }
     end
-    Utils.printTable(characterData["Magic Knight"]["attack"])
-
-    Party.members = {"Archer", "Magic Knight", nil, nil, "Lancer", "Wizard"}
 
     for name, data in pairs(Party.members) do
         if name and characterData[data]["attack"] then
             for _, atk_data in pairs(characterData[data]["attack"]) do
                 if not Party.memberSkills[data] then
-                    Party.memberSkills[data] = {}
+                    Party.memberSkills[data] = {nil, nil, nil, nil, nil}
                 end
 
                 local attack = Animation.new(
@@ -83,8 +84,12 @@ function Party.loadAssets()
                     atk_data.frameDuration,
                     2.5
                 )
+                local attack_name = atk_data.name
+                local attack_description = atk_data.description
 
-                table.insert(Party.memberSkills[data], attack)
+                local atk_info = {attack, attack_name, attack_description}
+
+                table.insert(Party.memberSkills[data], atk_info)
             end
         end
     end
@@ -112,20 +117,20 @@ function Party.update(dt)
 end
 
 function Party.draw()
-    for i = 1, 3 do
-        local x = 375
-        local y = 150 + (i - 1) * 100
-
-        if Party.members[i + 3] then
-            local memberLeft = Party.members[i + 3]
-            Party.animations[memberLeft].idle:draw(x - 100, y, true)
-        end
-
+    -- {"Archer", "Magic Knight", nil, nil, "Lancer", "Wizard"}
+    for i = 1, 6 do
+        local isLeftSide = i % 2 == 1 
+        local columnOffset = isLeftSide and -100 or 0 
+        local rowIndex = math.ceil(i / 2) 
+        local x = 375 + columnOffset
+        local y = 150 + (rowIndex - 1) * 100 
+    
         if Party.members[i] then
-            local memberRight = Party.members[i]
-            Party.animations[memberRight].idle:draw(x, y, true)
+            local member = Party.members[i]
+            Party.animations[member].idle:draw(x, y, true)
         end
     end
+    
 
     if Party.isBattleMode and not Party.attackSelectionMode then
         for i, slot in ipairs(Party.slots) do
@@ -153,23 +158,26 @@ function Party.draw()
             love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
         end
     elseif Party.isBattleMode and Party.attackSelectionMode then
-        -- selected unit show their skills
+        local skills = Party.memberSkills[Party.selectedUnit]
         for i, slot in ipairs(Party.slots) do
-            if i == 3 then
+            if i == 6 then
                 love.graphics.setColor(0, 0, 0, 1)
                 love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
                 love.graphics.setColor(1, 1, 1, 1) 
                 love.graphics.printf("Exit", slot.x - 137.5, slot.y + 35, 275, "center")
             else
-
                 love.graphics.setColor(0, 0, 0, 1)
                 love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
-                love.graphics.setColor(1, 1, 1, 1) 
-                love.graphics.printf("Empty", slot.x - 137.5, slot.y + 35, 275, "center")
+                love.graphics.setColor(1, 1, 1, 1)
+                if skills and skills[i] then
+                    love.graphics.printf(skills[i][2], slot.x - 137.5, slot.y + 35, 275, "center")
+                else
+                    love.graphics.printf("Empty", slot.x - 137.5, slot.y + 35, 275, "center")
+                end
             end
             love.graphics.setColor(1, 1, 1, 1)
             love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
-        end
+        end      
     end
 end
 
