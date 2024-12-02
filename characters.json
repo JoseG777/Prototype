@@ -58,7 +58,7 @@
                 "file": "assets/characters/magic_knight/magic_knight_attack_2.png",
                 "frameCount": 10,
                 "frameDuration": 0.12,
-                "name": "Strong Strike",
+                "name": "Double Strike",
                 "description": "Attack 2"
             },
             "3": {

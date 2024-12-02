@@ -1,10 +1,13 @@
 local Enemy = require("mechanics.enemy")
+local Party = require("mechanics.party")
+
 local BattleScreen = {}
 local background
 
 function BattleScreen.load()
     background = love.graphics.newImage("assets/backgrounds/battle.png")
     enemy = Enemy.new("Reaper")
+    Party.setEnemy(enemy)
 end
 
 function BattleScreen.update(dt)
