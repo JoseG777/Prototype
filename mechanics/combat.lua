@@ -12,7 +12,7 @@ function Combat.performAttack(attacker, target, attackAnimation, onComplete)
         timer = 0
     }
 
-    local targetX, targetY = target.position.x + 20, target.position.y
+    local targetX, targetY = target.position.x, target.position.y 
     local originalX, originalY = attacker.position.x, attacker.position.y
 
     attackAnimation:reset()
