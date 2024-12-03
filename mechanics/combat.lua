@@ -1,3 +1,4 @@
+local Animation = require("mechanics.animation")
 local Combat = {}
 
 function Combat.performAttack(attacker, target, attackAnimation, onComplete)
@@ -13,6 +14,9 @@ function Combat.performAttack(attacker, target, attackAnimation, onComplete)
 
     local targetX, targetY = target.position.x + 20, target.position.y
     local originalX, originalY = attacker.position.x, attacker.position.y
+
+    attackAnimation:reset()
+    attackAnimation:setLoop(false) 
 
     function state:update(dt)
         if self.phase == "moveToTarget" then
@@ -30,7 +34,7 @@ function Combat.performAttack(attacker, target, attackAnimation, onComplete)
             attackAnimation:update(dt)
             self.timer = self.timer + dt
 
-            if self.timer > attackAnimation:getDuration() then
+            if not attackAnimation.isPlaying then 
                 self.phase = "returnToOriginal"
                 self.timer = 0
             end
@@ -41,8 +45,9 @@ function Combat.performAttack(attacker, target, attackAnimation, onComplete)
 
             if math.abs(attacker.position.x - originalX) < 2 and math.abs(attacker.position.y - originalY) < 2 then
                 attacker.position.x, attacker.position.y = originalX, originalY
-                attacker.animation = attacker.idleAnimation 
-                self.phase = nil 
+                attacker.animation = attacker.idleAnimation
+                attacker.animation:setLoop(true)
+                self.phase = nil
                 if onComplete then onComplete() end
             end
         end

@@ -10,6 +10,8 @@ function Animation.new(filePath, frameCount, frameDuration, scaleFactor, rows)
     animation.frameDuration = frameDuration
     animation.scale = scaleFactor or 1
     animation.rows = rows or 1 
+    animation.isPlaying = true
+    animation.loop = true
 
     local totalWidth = animation.spriteSheet:getWidth()
     local totalHeight = animation.spriteSheet:getHeight()
@@ -27,10 +29,20 @@ function Animation.new(filePath, frameCount, frameDuration, scaleFactor, rows)
     end
 
     function animation:update(dt)
+        if not self.isPlaying then return end
         self.elapsedTime = self.elapsedTime + dt
         if self.elapsedTime >= self.frameDuration then
-            self.currentFrame = (self.currentFrame % #self.frames) + 1
+            self.currentFrame = self.currentFrame + 1
             self.elapsedTime = self.elapsedTime - self.frameDuration
+
+            if self.currentFrame > #self.frames then
+                if self.loop then
+                    self.currentFrame = 1 
+                else
+                    self.currentFrame = #self.frames 
+                    self.isPlaying = false
+                end
+            end
         end
     end
 
@@ -52,8 +64,20 @@ function Animation.new(filePath, frameCount, frameDuration, scaleFactor, rows)
     function animation:getDuration()
         return frameCount * frameDuration
     end
-    
+
+    function animation:reset()
+        self.currentFrame = 1
+        self.elapsedTime = 0
+        self.isPlaying = true
+    end
+
+    function animation:setLoop(loop)
+        self.loop = loop
+        self.isPlaying = true 
+    end
+
     return animation
 end
 
 return Animation
+

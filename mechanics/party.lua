@@ -11,7 +11,7 @@ attack is ready
 if attack is ready, on click of character perform attack
 ]]
 
-Party.members = {"Archer", "Magic Knight", "Soldier", "Priest", "Lancer", "Wizard"} -- max of 6 units
+Party.members = {"Archer", "Magic Knight", "Soldier", "Priest", nil, "Wizard"} -- max of 6 units
 Party.memberSkills = {} -- max of 5 skills per unit
 Party.animations = {}
 Party.currentAnimations = {}
