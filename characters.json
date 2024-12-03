@@ -151,21 +151,21 @@
             "1": {
                 "file": "assets/characters/magic_knight/magic_knight_attack_1.png",
                 "frameCount": 7,
-                "frameDuration": 0.15,
+                "frameDuration": 0.33,
                 "name": "Standard Strike",
                 "description": "Attack 1"
             },
             "2": {
                 "file": "assets/characters/magic_knight/magic_knight_attack_2.png",
                 "frameCount": 10,
-                "frameDuration": 0.12,
+                "frameDuration": 0.25,
                 "name": "Double Strike",
                 "description": "Attack 2"
             },
             "3": {
                 "file": "assets/characters/magic_knight/magic_knight_attack_3.png",
                 "frameCount": 11,
-                "frameDuration": 0.12,
+                "frameDuration": 0.2,
                 "name": "Magic Strike",
                 "description": "Attack 3"
             }
