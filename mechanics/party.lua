@@ -11,7 +11,7 @@ attack is ready
 if attack is ready, on click of character perform attack
 ]]
 
-Party.members = {"Archer", "Magic Knight", "Soldier", "Priest", nil, "Wizard"} -- max of 6 units
+Party.members = {nil, "Magic Knight", nil, "Priest", nil, nil} -- max of 6 units
 Party.memberSkills = {} -- max of 5 skills per unit
 Party.animations = {}
 Party.currentAnimations = {}
@@ -52,7 +52,49 @@ function Party.setEnemy(enemy)
     Party.currentEnemy = enemy
 end
 
+function Party.loadAssetsFor(unit)
+    local characterDataRaw = love.filesystem.read("characters.json")
+    if not characterDataRaw then
+        error("Failed to read characters.json")
+    end
+
+    local characterData = lunajson.decode(characterDataRaw)
+    if not characterData then
+        error("Failed to decode characters.json")
+    end
+
+    local data = characterData[unit]
+    if not data then
+        print("Unit not found in JSON:", unit)
+        return
+    end
+
+    Party.animations[unit] = {
+        idle = Animation.new(
+            data.idle.file,
+            data.idle.frameCount,
+            data.idle.frameDuration,
+            2.5
+        )
+    }
+
+    if data.attack then
+        Party.memberSkills[unit] = {}
+        for _, atk_data in pairs(data.attack) do
+            local attack = Animation.new(
+                atk_data.file,
+                atk_data.frameCount,
+                atk_data.frameDuration,
+                2.5
+            )
+            table.insert(Party.memberSkills[unit], {attack, atk_data.name, atk_data.description})
+        end
+    end
+end
+
+
 function Party.addSummonedUnit(unit)
+    Party.loadAssetsFor(unit)
     for i = 1, 6 do
         if not Party.members[i] then
             Party.members[i] = unit
@@ -267,8 +309,6 @@ function Party.mousepressed(x, y, button)
                     Party.currentEnemy,
                     Party.selectedAttack[curr_member],
                     function()
-                        -- On attack completion, reset to idle
-                        print("Attack animation completed")
                         Party.selectedAttack[curr_member] = nil
                         Party.currentAnimations[curr_member] = Party.animations[curr_member].idle
                         Party.currentCombatState = nil
