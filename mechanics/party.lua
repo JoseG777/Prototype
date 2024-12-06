@@ -5,16 +5,10 @@ local Utils = require("utils")
 
 local Party = {}
 
---[[
-select attack
-attack is ready
-if attack is ready, on click of character perform attack
-]]
-
 Party.members = {nil, "Magic Knight", nil, "Priest", nil, nil} -- max of 6 units
 Party.memberSkills = {} -- max of 5 skills per unit
 Party.animations = {}
-Party.currentAnimations = {}
+Party.currUnitAnimation = {}
 Party.selectedAttack = {} -- only one loaded attack for now
 Party.slots = { 
     {x = 137.5, y = 516}, -- Slot 1 {x = 412.5, y = 516}
@@ -52,7 +46,7 @@ function Party.setEnemy(enemy)
     Party.currentEnemy = enemy
 end
 
-function Party.loadAssetsFor(unit)
+function Party.loadAssetsFor(unit) -- need since assets are only loaded once
     local characterDataRaw = love.filesystem.read("characters.json")
     if not characterDataRaw then
         error("Failed to read characters.json")
@@ -98,7 +92,7 @@ function Party.addSummonedUnit(unit)
     for i = 1, 6 do
         if not Party.members[i] then
             Party.members[i] = unit
-            Party.currentAnimations[unit] = Party.animations[unit].idle
+            Party.currUnitAnimation[unit] = Party.animations[unit].idle
             Party.selectedAttack[unit] = nil
             return
         end
@@ -153,30 +147,30 @@ function Party.loadAssets()
             end
         end
         local curr_name = characterData[data]["name"]
-        Party.currentAnimations[curr_name] = Party.animations[curr_name].idle
-        -- print(curr_name, Party.currentAnimations[curr_name])
+        Party.currUnitAnimation[curr_name] = Party.animations[curr_name].idle
+        -- print(curr_name, Party.currUnitAnimation[curr_name])
         Party.selectedAttack[curr_name] = nil
     end
 end
 
 function Party.update(dt)
-    if Party.members[1] and Party.currentAnimations[Party.members[1]] then
-        Party.currentAnimations[Party.members[1]]:update(dt)
+    if Party.members[1] and Party.currUnitAnimation[Party.members[1]] then
+        Party.currUnitAnimation[Party.members[1]]:update(dt)
     end
-    if Party.members[2] and Party.currentAnimations[Party.members[2]] then
-        Party.currentAnimations[Party.members[2]]:update(dt)
+    if Party.members[2] and Party.currUnitAnimation[Party.members[2]] then
+        Party.currUnitAnimation[Party.members[2]]:update(dt)
     end
-    if Party.members[3] and Party.currentAnimations[Party.members[3]] then
-        Party.currentAnimations[Party.members[3]]:update(dt)
+    if Party.members[3] and Party.currUnitAnimation[Party.members[3]] then
+        Party.currUnitAnimation[Party.members[3]]:update(dt)
     end
-    if Party.members[4] and Party.currentAnimations[Party.members[4]] then
-        Party.currentAnimations[Party.members[4]]:update(dt)
+    if Party.members[4] and Party.currUnitAnimation[Party.members[4]] then
+        Party.currUnitAnimation[Party.members[4]]:update(dt)
     end
-    if Party.members[5] and Party.currentAnimations[Party.members[5]] then
-        Party.currentAnimations[Party.members[5]]:update(dt)
+    if Party.members[5] and Party.currUnitAnimation[Party.members[5]] then
+        Party.currUnitAnimation[Party.members[5]]:update(dt)
     end
-    if Party.members[6] and Party.currentAnimations[Party.members[6]] then
-        Party.currentAnimations[Party.members[6]]:update(dt)
+    if Party.members[6] and Party.currUnitAnimation[Party.members[6]] then
+        Party.currUnitAnimation[Party.members[6]]:update(dt)
     end
 
     if Party.currentCombatState then
@@ -187,14 +181,17 @@ end
 function Party.draw()
     for i, position in ipairs(Party.unitPositions) do
         local member = Party.members[i]
-        if member and Party.currentAnimations[member] then
+        
+        if member then
             if Party.currentCombatState then
                 Party.currentCombatState:draw()
             else 
-                Party.currentAnimations[member]:draw(position.x, position.y, true)
+                Party.currUnitAnimation[member]:draw(position.x, position.y, true)
             end
         end
     end
+    
+
 
     --[[for i, rect in ipairs(Party.predefinedRects) do
         love.graphics.setColor(0, 1, 0, 0.3) 
@@ -261,6 +258,7 @@ function Party.mousepressed(x, y, button)
     if button ~= 1 then return end
     
     if Party.attackSelectionMode then
+
         local skills = Party.memberSkills[Party.selectedUnit]
         for i, slot in ipairs(Party.slots) do
             if i == 6 then -- Exit button
@@ -278,7 +276,9 @@ function Party.mousepressed(x, y, button)
                 end
             end
         end
+        
     else
+
         for i, slot in ipairs(Party.slots) do
             if Party.members[i] and x >= slot.x - 137.5 and x <= slot.x + 137.5 and y >= slot.y + 10 and y <= slot.y + 92 then
                 Party.attackSelectionMode = true
@@ -287,7 +287,6 @@ function Party.mousepressed(x, y, button)
             end
         end 
 
-        -- Party.selectedAttack
         for i, box in ipairs(Party.predefinedRects) do
             local curr_member = Party.members[i]
             if curr_member and Party.selectedAttack[curr_member] and x >= box.leftX and x <= box.leftX + 50 and y >= box.upperY and y <= box.upperY + 50 then
@@ -302,15 +301,15 @@ function Party.mousepressed(x, y, button)
                     idleAnimation = Party.animations[curr_member].idle
                 }
         
-                Party.currentAnimations[curr_member] = Party.selectedAttack[curr_member]
+                Party.currUnitAnimation[curr_member] = Party.selectedAttack[curr_member]
         
-                Party.currentCombatState = Combat.performAttack(
+                Party.currentCombatState = Combat.performAttack( -- potential issue, maybe get rid of combat? put it all into one animation
                     attacker,
                     Party.currentEnemy,
                     Party.selectedAttack[curr_member],
                     function()
                         Party.selectedAttack[curr_member] = nil
-                        Party.currentAnimations[curr_member] = Party.animations[curr_member].idle
+                        Party.currUnitAnimation[curr_member] = Party.animations[curr_member].idle
                         Party.currentCombatState = nil
                         Party.currentAttacker = nil
                     end
