@@ -13,7 +13,6 @@ function Combat.performAttack(attacker, target, attackAnimation, onComplete)
 
     local targetX, targetY = target.position.x - 50, target.position.y - 75 
     local originalX, originalY = attacker.position.x, attacker.position.y
-    print("we start here "..originalX.." "..originalY)
 
     attackAnimation:reset()
     attackAnimation:setLoop(false) 

@@ -5,7 +5,7 @@ local Utils = require("utils")
 
 local Party = {}
 
-Party.members = {nil, "Magic Knight", nil, "Priest", nil, nil} -- max of 6 units
+Party.members = {"Wizard", "Magic Knight", "Lancer", "Priest", nil, nil} -- max of 6 units
 Party.memberSkills = {} -- max of 5 skills per unit
 Party.animations = {}
 Party.currUnitAnimation = {}
@@ -172,27 +172,26 @@ function Party.update(dt)
     if Party.members[6] and Party.currUnitAnimation[Party.members[6]] then
         Party.currUnitAnimation[Party.members[6]]:update(dt)
     end
-
+    
     if Party.currentCombatState then
         Party.currentCombatState:update(dt)
     end
+    
 end
 
 function Party.draw()
-    for i, position in ipairs(Party.unitPositions) do
-        local member = Party.members[i]
-        
-        if member then
-            if Party.currentCombatState then
-                Party.currentCombatState:draw()
-            else 
-                Party.currUnitAnimation[member]:draw(position.x, position.y, true)
+    for i = 1, 6 do
+        if Party.currentAttackerIndex ~= i then
+            if Party.members[i] and Party.currUnitAnimation[Party.members[i]] then
+                Party.currUnitAnimation[Party.members[i]]:draw(Party.unitPositions[i].x, Party.unitPositions[i].y, true)
             end
         end
     end
+
+    if Party.currentCombatState then
+        Party.currentCombatState:draw()
+    end
     
-
-
     --[[for i, rect in ipairs(Party.predefinedRects) do
         love.graphics.setColor(0, 1, 0, 0.3) 
         love.graphics.rectangle(
@@ -291,6 +290,7 @@ function Party.mousepressed(x, y, button)
             local curr_member = Party.members[i]
             if curr_member and Party.selectedAttack[curr_member] and x >= box.leftX and x <= box.leftX + 50 and y >= box.upperY and y <= box.upperY + 50 then
                 Party.currentAttacker = name
+                Party.currentAttackerIndex = i
                 local attacker = {
                     name = curr_member,
                     position = {
@@ -312,6 +312,7 @@ function Party.mousepressed(x, y, button)
                         Party.currUnitAnimation[curr_member] = Party.animations[curr_member].idle
                         Party.currentCombatState = nil
                         Party.currentAttacker = nil
+                        Party.currentAttackerIndex = nil
                     end
                 )
                 return
