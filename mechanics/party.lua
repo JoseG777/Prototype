@@ -5,7 +5,7 @@ local Utils = require("utils")
 
 local Party = {}
 
-Party.members = {"Wizard", "Magic Knight", "Lancer", "Priest", nil, nil} -- max of 6 units
+Party.members = {"Wizard", "Magic Knight", "Lancer", "Priest", "Soldier", nil} -- max of 6 units
 Party.memberSkills = {} -- max of 5 skills per unit
 Party.animations = {}
 Party.currUnitAnimation = {}
@@ -129,8 +129,8 @@ function Party.loadAssets()
     end
 
     for name, data in pairs(Party.members) do
-        if name and characterData[data]["attack"] then
-            for _, atk_data in pairs(characterData[data]["attack"]) do
+        if name and characterData[data]["skill"] then
+            for _, atk_data in pairs(characterData[data]["skill"]) do
                 if not Party.memberSkills[data] then
                     Party.memberSkills[data] = {nil, nil, nil, nil, nil}
                 end
