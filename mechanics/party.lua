@@ -40,7 +40,10 @@ Party.selectedUnit = nil
 Party.isBattleMode = false 
 Party.currentAnimation = nil
 Party.currentEnemy = nil
-Party.currentAttacker = nil
+
+Party.currentAttackers = {nil, nil, nil, nil, nil, nil}
+Party.currentAttackerIndexes = {nil, nil, nil, nil, nil, nil}
+Party.currentCombatStates = {nil, nil, nil, nil, nil, nil} 
 
 function Party.setEnemy(enemy)
     Party.currentEnemy = enemy
@@ -153,6 +156,15 @@ function Party.loadAssets()
     end
 end
 
+function Party.noCombat()
+    for i = 1, 6 do
+        if Party.currentCombatStates[i] then
+            return true
+        end
+    end
+    return false
+end
+
 function Party.update(dt)
     if Party.members[1] and Party.currUnitAnimation[Party.members[1]] then
         Party.currUnitAnimation[Party.members[1]]:update(dt)
@@ -173,23 +185,46 @@ function Party.update(dt)
         Party.currUnitAnimation[Party.members[6]]:update(dt)
     end
     
-    if Party.currentCombatState then
-        Party.currentCombatState:update(dt)
+    if Party.noCombat() then
+        -- Party.currentCombatState:update(dt)
+        if Party.currentCombatStates[1] then
+            Party.currentCombatStates[1]:update(dt)
+        end
+        if Party.currentCombatStates[2] then
+            Party.currentCombatStates[2]:update(dt)
+        end
+        if Party.currentCombatStates[3] then
+            Party.currentCombatStates[3]:update(dt)
+        end
+        if Party.currentCombatStates[4] then
+            Party.currentCombatStates[4]:update(dt)
+        end
+        if Party.currentCombatStates[5] then
+            Party.currentCombatStates[5]:update(dt)
+        end
+        if Party.currentCombatStates[6] then
+            Party.currentCombatStates[6]:update(dt)
+        end
     end
     
 end
 
 function Party.draw()
     for i = 1, 6 do
-        if Party.currentAttackerIndex ~= i then
+        if not Party.currentAttackerIndexes[i] then
             if Party.members[i] and Party.currUnitAnimation[Party.members[i]] then
                 Party.currUnitAnimation[Party.members[i]]:draw(Party.unitPositions[i].x, Party.unitPositions[i].y, true)
             end
         end
     end
 
-    if Party.currentCombatState then
-        Party.currentCombatState:draw()
+    if Party.noCombat() then
+        -- Party.currentCombatState:draw()
+        for i = 1, 6 do
+            if Party.currentCombatStates[i] then
+                Party.currentCombatStates[i]:draw()
+            end
+        end
     end
     
     --[[for i, rect in ipairs(Party.predefinedRects) do
@@ -289,8 +324,8 @@ function Party.mousepressed(x, y, button)
         for i, box in ipairs(Party.predefinedRects) do
             local curr_member = Party.members[i]
             if curr_member and Party.selectedAttack[curr_member] and x >= box.leftX and x <= box.leftX + 50 and y >= box.upperY and y <= box.upperY + 50 then
-                Party.currentAttacker = name
-                Party.currentAttackerIndex = i
+                Party.currentAttackers[i] = name
+                Party.currentAttackerIndexes[i] = true
                 local attacker = {
                     name = curr_member,
                     position = {
@@ -302,17 +337,18 @@ function Party.mousepressed(x, y, button)
                 }
         
                 Party.currUnitAnimation[curr_member] = Party.selectedAttack[curr_member]
+                -- Party.currentCombatState = true
         
-                Party.currentCombatState = Combat.performAttack( -- potential issue, maybe get rid of combat? put it all into one animation
+                Party.currentCombatStates[i] = Combat.performAttack(
                     attacker,
                     Party.currentEnemy,
                     Party.selectedAttack[curr_member],
                     function()
                         Party.selectedAttack[curr_member] = nil
                         Party.currUnitAnimation[curr_member] = Party.animations[curr_member].idle
-                        Party.currentCombatState = nil
-                        Party.currentAttacker = nil
-                        Party.currentAttackerIndex = nil
+                        -- Party.currentCombatState = nil
+                        Party.currentAttackers[i] = nil
+                        Party.currentAttackerIndexes[i] = nil
                     end
                 )
                 return
