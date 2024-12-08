@@ -12,21 +12,27 @@
                 "frameCount": 7,
                 "frameDuration": 0.33,
                 "name": "Standard Slash",
-                "description": "A standard slash"
+                "description": "A standard slash",
+                "type": "move_attack",
+                "subtype": ""
             },
             "2": {
                 "file": "assets/characters/swordsman/swordsman_attack_2.png",
                 "frameCount": 15,
                 "frameDuration": 0.18,
                 "name": "Sword Combo",
-                "description": "A sword combo"
+                "description": "A sword combo",
+                "type": "move_attack",
+                "subtype": ""
             },
             "3": {
                 "file": "assets/characters/swordsman/swordsman_attack_3.png",
                 "frameCount": 12,
                 "frameDuration": 0.2,
                 "name": "Multi-Jab",
-                "description": "Multiple jabs"
+                "description": "Multiple jabs",
+                "type": "move_attack",
+                "subtype": ""
             }
         }
     },
@@ -43,14 +49,18 @@
                 "frameCount": 9,
                 "frameDuration": 0.25,
                 "name": "Standard Shot",
-                "description": "A standard shot"
+                "description": "A standard shot",
+                "type": "move_attack",
+                "subtype": ""
             },
             "2": {
                 "file": "assets/characters/archer/archer_attack_2.png",
                 "frameCount": 12,
                 "frameDuration": 0.2,
                 "name": "Strong Shot",
-                "description": "A strong shot"
+                "description": "A strong shot",
+                "type": "move_attack",
+                "subtype": ""
             }
         }
     },
@@ -67,21 +77,27 @@
                 "frameCount": 6,
                 "frameDuration": 0.33,
                 "name": "Standard Slash",
-                "description": "A standard slash"
+                "description": "A standard slash",
+                "type": "move_attack",
+                "subtype": ""
             },
             "2": {
                 "file": "assets/characters/soldier/soldier_attack_2.png",
                 "frameCount": 6,
                 "frameDuration": 0.33,
                 "name": "Standard Strike",
-                "description": "A standard strike"
+                "description": "A standard strike",
+                "type": "move_attack",
+                "subtype": ""
             },
             "3": {
                 "file": "assets/characters/soldier/soldier_attack_3.png",
                 "frameCount": 9,
                 "frameDuration": 0.275,
                 "name": "Standard Shot",
-                "description": "A standard shot"
+                "description": "A standard shot",
+                "type": "move_attack",
+                "subtype": ""
             }
         }
     },
@@ -98,21 +114,27 @@
                 "frameCount": 7,
                 "frameDuration": 0.3,
                 "name": "Standard Jab",
-                "description": "A standard jab"
+                "description": "A standard jab",
+                "type": "move_attack",
+                "subtype": ""
             },
             "2": {
                 "file": "assets/characters/knight/knight_attack_2.png",
                 "frameCount": 8,
                 "frameDuration": 0.275,
                 "name": "Standard Strike",
-                "description": "A standard strike"
+                "description": "A standard strike",
+                "type": "move_attack",
+                "subtype": ""
             },
             "3": {
                 "file": "assets/characters/knight/knight_attack_3.png",
                 "frameCount": 11,
                 "frameDuration": 0.225,
                 "name": "Double Strike",
-                "description": "A surpise second attack!"
+                "description": "A surpise second attack!",
+                "type": "move_attack",
+                "subtype": ""
             }
         }
     },
@@ -129,21 +151,27 @@
                 "frameCount": 6,
                 "frameDuration": 0.33,
                 "name": "Standard Bash",
-                "description": "A standard bash"
+                "description": "A standard bash",
+                "type": "move_attack",
+                "subtype": ""
             },
             "2": {
                 "file": "assets/characters/wizard/wizard_attack_2.png",
                 "frameCount": 6,
                 "frameDuration": 0.33,
                 "name": "Fire Strike",
-                "description": "A ball of fire"
+                "description": "A ball of fire",
+                "type": "move_attack",
+                "subtype": ""
             },
             "3": {
                 "file": "assets/characters/wizard/wizard_attack_3.png",
                 "frameCount": 6,
                 "frameDuration": 0.33,
                 "name": "Ice Strike",
-                "description": "Might be ice, might be a crystal"
+                "description": "Might be ice, might be a crystal",
+                "type": "move_attack",
+                "subtype": ""
             }
         }
     },
@@ -160,21 +188,27 @@
                 "frameCount": 7,
                 "frameDuration": 0.3,
                 "name": "Standard Strike",
-                "description": "A standard strike"
+                "description": "A standard strike",
+                "type": "move_attack",
+                "subtype": ""
             },
             "2": {
                 "file": "assets/characters/magic_knight/magic_knight_attack_2.png",
                 "frameCount": 10,
                 "frameDuration": 0.25,
                 "name": "Double Strike",
-                "description": "A surpise second attack!"
+                "description": "A surpise second attack!",
+                "type": "move_attack",
+                "subtype": ""
             },
             "3": {
                 "file": "assets/characters/magic_knight/magic_knight_attack_3.png",
                 "frameCount": 11,
                 "frameDuration": 0.225,
                 "name": "Magic Strike",
-                "description": "A magic strike"
+                "description": "A magic strike",
+                "type": "move_attack",
+                "subtype": ""
             }
         }
     },
@@ -191,21 +225,27 @@
                 "frameCount": 6,
                 "frameDuration": 0.33,
                 "name": "Standard Jab",
-                "description": "A precise jab"
+                "description": "A precise jab",
+                "type": "move_attack",
+                "subtype": ""
             },
             "2": {
                 "file": "assets/characters/lancer/lancer_attack_2.png",
                 "frameCount": 9,
                 "frameDuration": 0.275,
                 "name": "Strong Jab",
-                "description": "A strong jab"
+                "description": "A strong jab",
+                "type": "move_attack",
+                "subtype": ""
             },
             "3": {
                 "file": "assets/characters/lancer/lancer_attack_3.png",
                 "frameCount": 8,
                 "frameDuration": 0.275,
                 "name": "Magic Jab",
-                "description": "A magic jab"
+                "description": "A magic jab",
+                "type": "move_attack",
+                "subtype": ""
             }
         }
     },
@@ -222,14 +262,18 @@
                 "frameCount": 9,
                 "frameDuration": 0.275,
                 "name": "Standard Bash",
-                "description": "A standard bash"
+                "description": "A standard bash",
+                "type": "move_attack",
+                "subtype": ""
             },
             "2": {
                 "file": "assets/characters/priest/priest_attack_2.png",
                 "frameCount": 6,
                 "frameDuration": 0.33,
                 "name": "Heal",
-                "description": "Heal a teammate!"
+                "description": "Heal a teammate!",
+                "type": "stationary_attack",
+                "subtype": ""
             }
         }
     }
