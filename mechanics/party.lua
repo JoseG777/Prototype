@@ -129,8 +129,8 @@ function Party.loadAssets()
     end
 
     for name, data in pairs(Party.members) do
-        if name and characterData[data]["skill"] then
-            for _, atk_data in pairs(characterData[data]["skill"]) do
+        if name and characterData[data]["skills"] then
+            for _, atk_data in pairs(characterData[data]["skills"]) do
                 if not Party.memberSkills[data] then
                     Party.memberSkills[data] = {nil, nil, nil, nil, nil}
                 end

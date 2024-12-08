@@ -6,7 +6,7 @@
             "frameCount": 6,
             "frameDuration": 0.1
         },
-        "skill": {
+        "skills": {
             "1": {
                 "file": "assets/characters/swordsman/swordsman_attack_1.png",
                 "frameCount": 7,
@@ -43,7 +43,7 @@
             "frameCount": 6,
             "frameDuration": 0.1
         },
-        "skill": {
+        "skills": {
             "1": {
                 "file": "assets/characters/archer/archer_attack_1.png",
                 "frameCount": 9,
@@ -71,7 +71,7 @@
             "frameCount": 6,
             "frameDuration": 0.1
         },
-        "skill": {
+        "skills": {
             "1": {
                 "file": "assets/characters/soldier/soldier_attack_1.png",
                 "frameCount": 6,
@@ -108,7 +108,7 @@
             "frameCount": 6,
             "frameDuration": 0.1
         },
-        "skill": {
+        "skills": {
             "1": {
                 "file": "assets/characters/knight/knight_attack_1.png",
                 "frameCount": 7,
@@ -145,7 +145,7 @@
             "frameCount": 6,
             "frameDuration": 0.1
         },
-        "skill": {
+        "skills": {
             "1": {
                 "file": "assets/characters/wizard/wizard_attack_1.png",
                 "frameCount": 6,
@@ -182,7 +182,7 @@
             "frameCount": 6,
             "frameDuration": 0.1
         },
-        "skill": {
+        "skills": {
             "1": {
                 "file": "assets/characters/magic_knight/magic_knight_attack_1.png",
                 "frameCount": 7,
@@ -219,7 +219,7 @@
             "frameCount": 6,
             "frameDuration": 0.1
         },
-        "skill": {
+        "skills": {
             "1": {
                 "file": "assets/characters/lancer/lancer_attack_1.png",
                 "frameCount": 6,
@@ -256,7 +256,7 @@
             "frameCount": 6,
             "frameDuration": 0.1
         },
-        "skill": {
+        "skills": {
             "1": {
                 "file": "assets/characters/priest/priest_attack_1.png",
                 "frameCount": 9,
