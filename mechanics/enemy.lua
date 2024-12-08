@@ -18,6 +18,7 @@ function Enemy.new(name)
 
     local enemy = {}
     enemy.name = name
+    enemy.stats = enemyInfo.stats
     enemy.position = enemyInfo.position or {x = 0, y = 0}
     enemy.scale = enemyInfo.scale or 1
     enemy.animation = Animation.new(
@@ -37,7 +38,6 @@ function Enemy.new(name)
         local offsetY = (self.animation.frameHeight * self.scale) / 2
         self.animation:draw(self.position.x - offsetX, self.position.y - offsetY, false)
     end
-    
 
     return enemy
 end
