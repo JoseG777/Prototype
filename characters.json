@@ -22,7 +22,9 @@
                 "name": "Standard Slash",
                 "description": "A standard slash",
                 "type": "move_attack",
+                "damageType": "physical",
                 "delivery": "direct",
+                "damageMultiplier": null,
                 "damageFrames": [
                     4
                 ]
@@ -35,6 +37,8 @@
                 "description": "A sword combo",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "damageFrames": [
                     4,
                     7,
@@ -48,7 +52,9 @@
                 "name": "Multi-Jab",
                 "description": "Multiple jabs",
                 "type": "move_attack",
-                "delivery": "",
+                "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": 1.5,
                 "damageFrames": [
                     6,
                     7,
@@ -85,6 +91,8 @@
                 "description": "A standard shot",
                 "type": "move_attack",
                 "delivery": "projectile",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "launchFrames": [
                     7
                 ],
@@ -99,6 +107,8 @@
                 "description": "A strong shot",
                 "type": "move_attack",
                 "delivery": "projectile",
+                "damageType": "physical",
+                "damageMultiplier": 1.25,
                 "launchFrames": [
                     10
                 ],
@@ -131,6 +141,8 @@
                 "description": "A standard slash",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "damageFrames": [
                     4
                 ]
@@ -143,6 +155,8 @@
                 "description": "A standard strike",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "damageFrames": [
                     4
                 ]
@@ -155,6 +169,8 @@
                 "description": "A standard shot",
                 "type": "move_attack",
                 "delivery": "projectile",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "launchFrames": [
                     8
                 ],
@@ -187,6 +203,8 @@
                 "description": "A standard jab",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "damageFrames": [
                     6
                 ]
@@ -199,6 +217,8 @@
                 "description": "A standard strike",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "damageFrames": [
                     6
                 ]
@@ -211,6 +231,8 @@
                 "description": "A surpise second attack!",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "damageFrames": [
                     6,
                     8
@@ -242,6 +264,8 @@
                 "description": "A standard bash",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "damageFrames": [
                     5
                 ]
@@ -254,6 +278,8 @@
                 "description": "A ball of fire",
                 "type": "move_attack",
                 "delivery": "projectile",
+                "damageType": "magic",
+                "damageMultiplier": 1.25,
                 "launchFrames": [
                     5
                 ],
@@ -268,6 +294,8 @@
                 "description": "Might be ice, might be a crystal",
                 "type": "move_attack",
                 "delivery": "projectile",
+                "damageType": "magic",
+                "damageMultiplier": 1.25,
                 "launchFrames": [
                     5
                 ],
@@ -300,6 +328,8 @@
                 "description": "A standard strike",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "damageFrames": [
                     4
                 ]
@@ -312,6 +342,8 @@
                 "description": "A surpise second attack!",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "damageFrames": [
                     4,
                     8
@@ -325,6 +357,8 @@
                 "description": "A magic strike",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "hybrid",
+                "damageMultiplier": 1.5,
                 "damageFrames": [
                     8,
                     9,
@@ -357,6 +391,8 @@
                 "description": "A precise jab",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "damageFrames": [
                     5
                 ]
@@ -369,6 +405,8 @@
                 "description": "A strong jab",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": 1.2,
                 "damageFrames": [
                     5,
                     6,
@@ -383,6 +421,8 @@
                 "description": "A magic jab",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "hybrid",
+                "damageMultiplier": 1.5,
                 "damageFrames": [
                     1,
                     2,
@@ -418,6 +458,8 @@
                 "description": "A standard bash",
                 "type": "move_attack",
                 "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
                 "damageFrames": [
                     5
                 ]
@@ -429,7 +471,9 @@
                 "name": "Heal",
                 "description": "Heal a teammate!",
                 "type": "stationary_attack",
-                "delivery": "spawn"
+                "damageType": "magic",
+                "delivery": "spawn",
+                "damageMultiplier": ""
             }
         }
     }

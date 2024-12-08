@@ -1,21 +1,39 @@
-local Animation = require("mechanics.animation")
+local Utils = require("utils")
 local Combat = {}
 
-function Combat.performAttack(attacker, target, attackAnimation, onComplete)
-    if not attacker or not target or not attackAnimation then
+function Combat.calculateDamage(attacker, target, atkData)
+    local attackStat = 1
+    if atkData.damageType == "hybrid" then
+        attackStat = (attacker.stats.ATK + attacker.stats.MAG) / 2
+    elseif atkData.damageType == "physical" then
+        attackStat = attacker.stats.ATK
+    else
+        attackStat = attacker.stats.MAG
+    end
+    local defenseStat = target.stats.DEF
+    local baseDamage = attackStat - defenseStat * 0.5
+    local multiplier = math.random(85, 110) / 100
+    local skillMultiplier = atkData.damageMultiplier or 1.0
+
+    return math.max(1, baseDamage * multiplier * skillMultiplier) -- account for negatives
+end
+
+function Combat.performAttack(attacker, target, attackAnimation, atkData, onComplete)
+    if not attacker or not target or not attackAnimation or not atkData then
         error("Missing parameters for performAttack")
         return
     end
 
     local state = {
-        phase = "moveToTarget"
+        phase = "moveToTarget",
+        damageFramesHit = {},
     }
 
-    local targetX, targetY = target.position.x - 50, target.position.y - 75 
+    local targetX, targetY = target.position.x - 50, target.position.y - 75
     local originalX, originalY = attacker.position.x, attacker.position.y
 
     attackAnimation:reset()
-    attackAnimation:setLoop(false) 
+    attackAnimation:setLoop(false)
 
     function state:update(dt)
         if self.phase == "moveToTarget" then
@@ -31,8 +49,21 @@ function Combat.performAttack(attacker, target, attackAnimation, onComplete)
 
         elseif self.phase == "playAttackAnimation" then
             attackAnimation:update(dt)
-            if not attackAnimation.isPlaying then 
-                 attacker.animation = attacker.idleAnimation
+            local currentFrame = attackAnimation.currentFrame
+
+            if atkData.damageFrames then
+                for _, damageFrame in ipairs(atkData.damageFrames) do
+                    if currentFrame == damageFrame and not self.damageFramesHit[damageFrame] then
+                        local damage = Combat.calculateDamage(attacker, target, atkData)
+                        target.stats.HP = math.max(0, target.stats.HP - damage) 
+                        print(target.name .. " takes " .. damage .. " damage! HP left: " .. target.stats.HP)
+                        self.damageFramesHit[damageFrame] = true
+                    end
+                end
+            end
+
+            if not attackAnimation.isPlaying then
+                attacker.animation = attacker.idleAnimation
                 self.phase = "returnToOriginal"
             end
 

@@ -12,6 +12,7 @@ Party.memberSkills = {} -- max of 5 skills per unit
 Party.animations = {}
 Party.currUnitAnimation = {}
 Party.selectedAttack = {} -- only one loaded attack for now
+Party.selectedAttackData = {} 
 Party.slots = { 
     {x = 137.5, y = 516}, -- Slot 1 {x = 412.5, y = 516}
     {x = 412.5, y = 516}, -- Slot 2 {x = 412.5, y = 598}
@@ -133,11 +134,11 @@ function Party.loadAssets()
         }
     end
 
-    for name, data in pairs(Party.members) do
-        if name and characterData[data]["skills"] then
-            for _, atk_data in pairs(characterData[data]["skills"]) do
-                if not Party.memberSkills[data] then
-                    Party.memberSkills[data] = {nil, nil, nil, nil, nil}
+    for index, name in pairs(Party.members) do
+        if index and characterData[name]["skills"] then
+            for _, atk_data in pairs(characterData[name]["skills"]) do
+                if not Party.memberSkills[name] then
+                    Party.memberSkills[name] = {nil, nil, nil, nil, nil}
                 end
 
                 local attack = Animation.new(
@@ -149,22 +150,22 @@ function Party.loadAssets()
                 local attack_name = atk_data.name
                 local attack_description = atk_data.description
 
-                local atk_info = {attack, attack_name, attack_description}
+                local atk_info = {attack, attack_name, attack_description, atk_data}
 
-                table.insert(Party.memberSkills[data], atk_info)
+                table.insert(Party.memberSkills[name], atk_info)
             end
         end
-        local curr_name = characterData[data]["name"]
-        Party.currUnitAnimation[curr_name] = Party.animations[curr_name].idle
-        Party.selectedAttack[curr_name] = nil
+        -- local curr_name = characterData[data]["name"]
+        Party.currUnitAnimation[name] = Party.animations[name].idle
+        Party.selectedAttack[name] = nil
 
-        Party.memberStats[curr_name] = {
-            HP = characterData[data]["stats"]["HP"], 
-            MP = characterData[data]["stats"]["MP"], 
-            ATK = characterData[data]["stats"]["ATK"], 
-            DEF = characterData[data]["stats"]["DEF"],
-            MAG = characterData[data]["stats"]["MAG"]}
-        Party.currMemberStats[curr_name] = {currHP = characterData[data]["stats"]["HP"], currMP = characterData[data]["stats"]["MP"]}
+        Party.memberStats[name] = {
+            HP = characterData[name]["stats"]["HP"], 
+            MP = characterData[name]["stats"]["MP"], 
+            ATK = characterData[name]["stats"]["ATK"], 
+            DEF = characterData[name]["stats"]["DEF"],
+            MAG = characterData[name]["stats"]["MAG"]}
+        Party.currMemberStats[name] = {currHP = characterData[name]["stats"]["HP"], currMP = characterData[name]["stats"]["MP"]}
     end
 end
 
@@ -318,6 +319,7 @@ function Party.mousepressed(x, y, button)
             elseif skills and skills[i] then
                 if x >= slot.x - 137.5 and x <= slot.x + 137.5 and y >= slot.y + 10 and y <= slot.y + 92 then
                     Party.selectedAttack[Party.selectedUnit] = skills[i][1]
+                    Party.selectedAttackData[Party.selectedUnit] = skills[i][4]
                     Party.attackSelectionMode = false
                     Party.selectedUnit = nil
                     return
@@ -338,6 +340,7 @@ function Party.mousepressed(x, y, button)
         for i, box in ipairs(Party.predefinedRects) do
             local curr_member = Party.members[i]
             if curr_member and Party.selectedAttack[curr_member] and x >= box.leftX and x <= box.leftX + 50 and y >= box.upperY and y <= box.upperY + 50 then
+
                 Party.currentAttackers[i] = name
                 Party.currentAttackerIndexes[i] = true
                 local attacker = {
@@ -347,20 +350,23 @@ function Party.mousepressed(x, y, button)
                         y = Party.unitPositions[i].y
                     },
                     animation = Party.selectedAttack[curr_member],
-                    idleAnimation = Party.animations[curr_member].idle
+                    idleAnimation = Party.animations[curr_member].idle,
+                    stats = Party.memberStats[curr_member]
                 }
         
                 Party.currUnitAnimation[curr_member] = Party.selectedAttack[curr_member]
-        
+                
                 Party.currentCombatStates[i] = Combat.performAttack(
                     attacker,
                     Party.currentEnemy,
                     Party.selectedAttack[curr_member],
+                    Party.selectedAttackData[curr_member],
                     function()
                         Party.selectedAttack[curr_member] = nil
                         Party.currUnitAnimation[curr_member] = Party.animations[curr_member].idle
                         Party.currentAttackers[i] = nil
                         Party.currentAttackerIndexes[i] = nil
+                        Party.selectedAttackData[curr_member] = nil
                     end
                 )
                 return
