@@ -1,6 +1,14 @@
 {
     "Swordsman": {
         "name": "Swordsman",
+        "rarity": "",
+        "stats": {
+            "HP": 125,
+            "MP": 0,
+            "ATK": 35,
+            "DEF": 20,
+            "MAG": 0
+        },
         "idle": {
             "file": "assets/characters/swordsman/swordsman_idle.png",
             "frameCount": 6,
@@ -14,7 +22,7 @@
                 "name": "Standard Slash",
                 "description": "A standard slash",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "2": {
                 "file": "assets/characters/swordsman/swordsman_attack_2.png",
@@ -23,7 +31,7 @@
                 "name": "Sword Combo",
                 "description": "A sword combo",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "3": {
                 "file": "assets/characters/swordsman/swordsman_attack_3.png",
@@ -32,12 +40,20 @@
                 "name": "Multi-Jab",
                 "description": "Multiple jabs",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             }
         }
     },
     "Archer": {
         "name": "Archer",
+        "rarity": "",
+        "stats": {
+            "HP": 100,
+            "MP": 0,
+            "ATK": 25,
+            "DEF": 15,
+            "MAG": null
+        },
         "idle": {
             "file": "assets/characters/archer/archer_idle.png",
             "frameCount": 6,
@@ -51,7 +67,7 @@
                 "name": "Standard Shot",
                 "description": "A standard shot",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "2": {
                 "file": "assets/characters/archer/archer_attack_2.png",
@@ -60,12 +76,20 @@
                 "name": "Strong Shot",
                 "description": "A strong shot",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             }
         }
     },
     "Soldier": {
         "name": "Soldier",
+        "rarity": "",
+        "stats": {
+            "HP": 110,
+            "MP": 0,
+            "ATK": 30,
+            "DEF": 20,
+            "MAG": 0
+        },
         "idle": {
             "file": "assets/characters/soldier/soldier_idle.png",
             "frameCount": 6,
@@ -79,7 +103,7 @@
                 "name": "Standard Slash",
                 "description": "A standard slash",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "2": {
                 "file": "assets/characters/soldier/soldier_attack_2.png",
@@ -88,7 +112,7 @@
                 "name": "Standard Strike",
                 "description": "A standard strike",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "3": {
                 "file": "assets/characters/soldier/soldier_attack_3.png",
@@ -97,12 +121,20 @@
                 "name": "Standard Shot",
                 "description": "A standard shot",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             }
         }
     },
     "Knight": {
         "name": "Knight",
+        "rarity": "",
+        "stats": {
+            "HP": 115,
+            "MP": 0,
+            "ATK": 30,
+            "DEF": 25,
+            "MAG": 0
+        },
         "idle": {
             "file": "assets/characters/knight/knight_idle.png",
             "frameCount": 6,
@@ -116,7 +148,7 @@
                 "name": "Standard Jab",
                 "description": "A standard jab",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "2": {
                 "file": "assets/characters/knight/knight_attack_2.png",
@@ -125,7 +157,7 @@
                 "name": "Standard Strike",
                 "description": "A standard strike",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "3": {
                 "file": "assets/characters/knight/knight_attack_3.png",
@@ -134,12 +166,20 @@
                 "name": "Double Strike",
                 "description": "A surpise second attack!",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             }
         }
     },
     "Wizard": {
         "name": "Wizard",
+        "rarity": "",
+        "stats": {
+            "HP": 110,
+            "MP": 100,
+            "ATK": 10,
+            "DEF": 10,
+            "MAG": 85
+        },
         "idle": {
             "file": "assets/characters/wizard/wizard_idle.png",
             "frameCount": 6,
@@ -153,7 +193,7 @@
                 "name": "Standard Bash",
                 "description": "A standard bash",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "2": {
                 "file": "assets/characters/wizard/wizard_attack_2.png",
@@ -162,7 +202,7 @@
                 "name": "Fire Strike",
                 "description": "A ball of fire",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "3": {
                 "file": "assets/characters/wizard/wizard_attack_3.png",
@@ -171,12 +211,20 @@
                 "name": "Ice Strike",
                 "description": "Might be ice, might be a crystal",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             }
         }
     },
     "Magic Knight": {
         "name": "Magic Knight",
+        "rarity": "",
+        "stats": {
+            "HP": 150,
+            "MP": 80,
+            "ATK": 85,
+            "DEF": 70,
+            "MAG": 45
+        },
         "idle": {
             "file": "assets/characters/magic_knight/magic_knight_idle.png",
             "frameCount": 6,
@@ -190,7 +238,7 @@
                 "name": "Standard Strike",
                 "description": "A standard strike",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "2": {
                 "file": "assets/characters/magic_knight/magic_knight_attack_2.png",
@@ -199,7 +247,7 @@
                 "name": "Double Strike",
                 "description": "A surpise second attack!",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "3": {
                 "file": "assets/characters/magic_knight/magic_knight_attack_3.png",
@@ -208,12 +256,20 @@
                 "name": "Magic Strike",
                 "description": "A magic strike",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             }
         }
     },
     "Lancer": {
         "name": "Lancer",
+        "rarity": "",
+        "stats": {
+            "HP": 200,
+            "MP": 80,
+            "ATK": 100,
+            "DEF": 80,
+            "MAG": 55
+        },
         "idle": {
             "file": "assets/characters/lancer/lancer_idle.png",
             "frameCount": 6,
@@ -227,7 +283,7 @@
                 "name": "Standard Jab",
                 "description": "A precise jab",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "2": {
                 "file": "assets/characters/lancer/lancer_attack_2.png",
@@ -236,7 +292,7 @@
                 "name": "Strong Jab",
                 "description": "A strong jab",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "3": {
                 "file": "assets/characters/lancer/lancer_attack_3.png",
@@ -245,12 +301,20 @@
                 "name": "Magic Jab",
                 "description": "A magic jab",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             }
         }
     },
     "Priest": {
         "name": "Priest",
+        "rarity": "",
+        "stats": {
+            "HP": 300,
+            "MP": 150,
+            "ATK": 10,
+            "DEF": 10,
+            "MAG": 150
+        },
         "idle": {
             "file": "assets/characters/priest/priest_idle.png",
             "frameCount": 6,
@@ -264,7 +328,7 @@
                 "name": "Standard Bash",
                 "description": "A standard bash",
                 "type": "move_attack",
-                "subtype": ""
+                "delivery": ""
             },
             "2": {
                 "file": "assets/characters/priest/priest_attack_2.png",
@@ -273,7 +337,7 @@
                 "name": "Heal",
                 "description": "Heal a teammate!",
                 "type": "stationary_attack",
-                "subtype": ""
+                "delivery": ""
             }
         }
     }
