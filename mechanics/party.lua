@@ -6,6 +6,8 @@ local Utils = require("utils")
 local Party = {}
 
 Party.members = {"Wizard", "Magic Knight", "Lancer", "Priest", "Soldier", "Swordsman"} -- max of 6 units
+Party.memberStats = {}
+Party.currMemberStats = {}
 Party.memberSkills = {} -- max of 5 skills per unit
 Party.animations = {}
 Party.currUnitAnimation = {}
@@ -48,6 +50,7 @@ Party.currentCombatStates = {nil, nil, nil, nil, nil, nil}
 function Party.setEnemy(enemy)
     Party.currentEnemy = enemy
 end
+
 
 function Party.loadAssetsFor(unit) -- need since assets are only loaded once
     local characterDataRaw = love.filesystem.read("characters.json")
@@ -102,12 +105,14 @@ function Party.addSummonedUnit(unit)
     end
 end
 
+
 function Party.selectAttack(skillIndex)
     if Party.selectedUnit and Party.memberSkills[Party.selectedUnit] then
         Party.members[Party.selectedUnit].selectedAttack = skillIndex
         Party.attackSelectionMode = false
     end
 end
+
 
 function Party.loadAssets()
     local jsonData = love.filesystem.read("characters.json")
@@ -151,10 +156,18 @@ function Party.loadAssets()
         end
         local curr_name = characterData[data]["name"]
         Party.currUnitAnimation[curr_name] = Party.animations[curr_name].idle
-        -- print(curr_name, Party.currUnitAnimation[curr_name])
         Party.selectedAttack[curr_name] = nil
+
+        Party.memberStats[curr_name] = {
+            HP = characterData[data]["stats"]["HP"], 
+            MP = characterData[data]["stats"]["MP"], 
+            ATK = characterData[data]["stats"]["ATK"], 
+            DEF = characterData[data]["stats"]["DEF"],
+            MAG = characterData[data]["stats"]["MAG"]}
+        Party.currMemberStats[curr_name] = {currHP = characterData[data]["stats"]["HP"], currMP = characterData[data]["stats"]["MP"]}
     end
 end
+
 
 function Party.noCombat()
     for i = 1, 6 do
@@ -164,6 +177,7 @@ function Party.noCombat()
     end
     return false
 end
+
 
 function Party.update(dt)
     if Party.members[1] and Party.currUnitAnimation[Party.members[1]] then
@@ -209,6 +223,7 @@ function Party.update(dt)
     
 end
 
+
 function Party.draw()
     for i = 1, 6 do
         if not Party.currentAttackerIndexes[i] then
@@ -219,25 +234,12 @@ function Party.draw()
     end
 
     if Party.noCombat() then
-        -- Party.currentCombatState:draw()
         for i = 1, 6 do
             if Party.currentCombatStates[i] then
                 Party.currentCombatStates[i]:draw()
             end
         end
     end
-    
-    --[[for i, rect in ipairs(Party.predefinedRects) do
-        love.graphics.setColor(0, 1, 0, 0.3) 
-        love.graphics.rectangle(
-            "fill", 
-            rect.leftX, 
-            rect.upperY, 
-            50,
-            50
-        )
-    end
-    love.graphics.setColor(1, 1, 1, 1)]]
     
     if Party.isBattleMode and not Party.attackSelectionMode then
         for i, slot in ipairs(Party.slots) do
@@ -247,12 +249,13 @@ function Party.draw()
                 love.graphics.setColor(0, 0, 0, 1)
                 love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
                 love.graphics.setColor(1, 1, 1, 1)
-
+                
+                local formattedMemberInfo = string.format("%s\nHP: %d/%d\n MP: %d/%d", member, Party.currMemberStats[member].currHP, Party.memberStats[member].HP, Party.currMemberStats[member].currMP, Party.memberStats[member].MP)
                 love.graphics.printf(
-                    member .. "\nHP: 100/100", -- temp place holder
+                    formattedMemberInfo,
                     slot.x - 40,
                     slot.y + 30,
-                    80,
+                    85,
                     "center"
                 )
             else
@@ -277,9 +280,19 @@ function Party.draw()
                 love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
                 love.graphics.setColor(1, 1, 1, 1)
                 if skills and skills[i] then
-                    love.graphics.printf(skills[i][2], slot.x - 137.5, slot.y + 35, 275, "center")
+                    local formattedAttackInfo = string.format("%s\n%s", skills[i][2], skills[i][3])
+                    love.graphics.printf(
+                        formattedAttackInfo, 
+                        slot.x - 137.5, 
+                        slot.y + 35, 
+                        275, 
+                        "center")
                 else
-                    love.graphics.printf("Empty", slot.x - 137.5, slot.y + 35, 275, "center")
+                    love.graphics.printf(
+                        "Empty", 
+                        slot.x - 137.5, 
+                        slot.y + 35, 275, 
+                        "center")
                 end
             end
             love.graphics.setColor(1, 1, 1, 1)
@@ -287,6 +300,7 @@ function Party.draw()
         end      
     end
 end
+
 
 function Party.mousepressed(x, y, button)
     if button ~= 1 then return end
@@ -337,7 +351,6 @@ function Party.mousepressed(x, y, button)
                 }
         
                 Party.currUnitAnimation[curr_member] = Party.selectedAttack[curr_member]
-                -- Party.currentCombatState = true
         
                 Party.currentCombatStates[i] = Combat.performAttack(
                     attacker,
@@ -346,7 +359,6 @@ function Party.mousepressed(x, y, button)
                     function()
                         Party.selectedAttack[curr_member] = nil
                         Party.currUnitAnimation[curr_member] = Party.animations[curr_member].idle
-                        -- Party.currentCombatState = nil
                         Party.currentAttackers[i] = nil
                         Party.currentAttackerIndexes[i] = nil
                     end
@@ -361,3 +373,22 @@ end
 
 
 return Party
+
+
+
+
+
+
+
+
+    --[[for i, rect in ipairs(Party.predefinedRects) do
+        love.graphics.setColor(0, 1, 0, 0.3) 
+        love.graphics.rectangle(
+            "fill", 
+            rect.leftX, 
+            rect.upperY, 
+            50,
+            50
+        )
+    end
+    love.graphics.setColor(1, 1, 1, 1)]]
