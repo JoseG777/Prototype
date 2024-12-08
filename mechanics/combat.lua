@@ -1,4 +1,5 @@
 local Utils = require("utils")
+local FloatingNumbers = require("mechanics.damage_display")
 local Combat = {}
 
 function Combat.calculateDamage(attacker, target, atkData)
@@ -56,7 +57,8 @@ function Combat.performAttack(attacker, target, attackAnimation, atkData, onComp
                     if currentFrame == damageFrame and not self.damageFramesHit[damageFrame] then
                         local damage = Combat.calculateDamage(attacker, target, atkData)
                         target.stats.HP = math.max(0, target.stats.HP - damage) 
-                        print(target.name .. " takes " .. damage .. " damage! HP left: " .. target.stats.HP)
+                        FloatingNumbers.new(target.position.x, target.position.y - 30, tostring(damage))
+                        -- print(target.name .. " takes " .. damage .. " damage! HP left: " .. target.stats.HP)
                         self.damageFramesHit[damageFrame] = true
                     end
                 end
