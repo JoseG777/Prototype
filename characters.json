@@ -22,7 +22,10 @@
                 "name": "Standard Slash",
                 "description": "A standard slash",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    4
+                ]
             },
             "2": {
                 "file": "assets/characters/swordsman/swordsman_attack_2.png",
@@ -31,7 +34,12 @@
                 "name": "Sword Combo",
                 "description": "A sword combo",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    4,
+                    7,
+                    13
+                ]
             },
             "3": {
                 "file": "assets/characters/swordsman/swordsman_attack_3.png",
@@ -40,7 +48,16 @@
                 "name": "Multi-Jab",
                 "description": "Multiple jabs",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "",
+                "damageFrames": [
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12
+                ]
             }
         }
     },
@@ -67,7 +84,12 @@
                 "name": "Standard Shot",
                 "description": "A standard shot",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "projectile",
+                "launchFrames": [
+                    7
+                ],
+                "projectileSpeed": 300,
+                "impactEffect": ""
             },
             "2": {
                 "file": "assets/characters/archer/archer_attack_2.png",
@@ -76,7 +98,12 @@
                 "name": "Strong Shot",
                 "description": "A strong shot",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "projectile",
+                "launchFrames": [
+                    10
+                ],
+                "projectileSpeed": 300,
+                "impactEffect": ""
             }
         }
     },
@@ -103,7 +130,10 @@
                 "name": "Standard Slash",
                 "description": "A standard slash",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    4
+                ]
             },
             "2": {
                 "file": "assets/characters/soldier/soldier_attack_2.png",
@@ -112,7 +142,10 @@
                 "name": "Standard Strike",
                 "description": "A standard strike",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    4
+                ]
             },
             "3": {
                 "file": "assets/characters/soldier/soldier_attack_3.png",
@@ -121,7 +154,12 @@
                 "name": "Standard Shot",
                 "description": "A standard shot",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "projectile",
+                "launchFrames": [
+                    8
+                ],
+                "projectileSpeed": 300,
+                "impactEffect": ""
             }
         }
     },
@@ -148,7 +186,10 @@
                 "name": "Standard Jab",
                 "description": "A standard jab",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    6
+                ]
             },
             "2": {
                 "file": "assets/characters/knight/knight_attack_2.png",
@@ -157,7 +198,10 @@
                 "name": "Standard Strike",
                 "description": "A standard strike",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    6
+                ]
             },
             "3": {
                 "file": "assets/characters/knight/knight_attack_3.png",
@@ -166,7 +210,11 @@
                 "name": "Double Strike",
                 "description": "A surpise second attack!",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    6,
+                    8
+                ]
             }
         }
     },
@@ -193,7 +241,10 @@
                 "name": "Standard Bash",
                 "description": "A standard bash",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    5
+                ]
             },
             "2": {
                 "file": "assets/characters/wizard/wizard_attack_2.png",
@@ -202,7 +253,12 @@
                 "name": "Fire Strike",
                 "description": "A ball of fire",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "projectile",
+                "launchFrames": [
+                    5
+                ],
+                "projectileSpeed": 300,
+                "impactEffect": ""
             },
             "3": {
                 "file": "assets/characters/wizard/wizard_attack_3.png",
@@ -211,7 +267,12 @@
                 "name": "Ice Strike",
                 "description": "Might be ice, might be a crystal",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "projectile",
+                "launchFrames": [
+                    5
+                ],
+                "projectileSpeed": 300,
+                "impactEffect": ""
             }
         }
     },
@@ -238,7 +299,10 @@
                 "name": "Standard Strike",
                 "description": "A standard strike",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    4
+                ]
             },
             "2": {
                 "file": "assets/characters/magic_knight/magic_knight_attack_2.png",
@@ -247,7 +311,11 @@
                 "name": "Double Strike",
                 "description": "A surpise second attack!",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    4,
+                    8
+                ]
             },
             "3": {
                 "file": "assets/characters/magic_knight/magic_knight_attack_3.png",
@@ -256,7 +324,12 @@
                 "name": "Magic Strike",
                 "description": "A magic strike",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    8,
+                    9,
+                    10
+                ]
             }
         }
     },
@@ -283,7 +356,10 @@
                 "name": "Standard Jab",
                 "description": "A precise jab",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    5
+                ]
             },
             "2": {
                 "file": "assets/characters/lancer/lancer_attack_2.png",
@@ -292,7 +368,12 @@
                 "name": "Strong Jab",
                 "description": "A strong jab",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    5,
+                    6,
+                    7
+                ]
             },
             "3": {
                 "file": "assets/characters/lancer/lancer_attack_3.png",
@@ -301,7 +382,15 @@
                 "name": "Magic Jab",
                 "description": "A magic jab",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    1,
+                    2,
+                    3,
+                    5,
+                    6,
+                    7
+                ]
             }
         }
     },
@@ -328,7 +417,10 @@
                 "name": "Standard Bash",
                 "description": "A standard bash",
                 "type": "move_attack",
-                "delivery": ""
+                "delivery": "direct",
+                "damageFrames": [
+                    5
+                ]
             },
             "2": {
                 "file": "assets/characters/priest/priest_attack_2.png",
@@ -337,7 +429,7 @@
                 "name": "Heal",
                 "description": "Heal a teammate!",
                 "type": "stationary_attack",
-                "delivery": ""
+                "delivery": "spawn"
             }
         }
     }
