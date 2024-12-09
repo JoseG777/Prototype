@@ -5,7 +5,7 @@ local Utils = require("utils")
 
 local Party = {}
 
-Party.members = {"Wizard", "Magic Knight", "Lancer", "Priest", "Soldier", "Swordsman"} -- max of 6 units
+Party.members = {"Swordsman", "Archer", nil, nil, nil, nil} -- max of 6 units
 Party.memberStats = {}
 Party.currMemberStats = {}
 Party.memberSkills = {} -- max of 5 skills per unit
@@ -54,7 +54,7 @@ function Party.setEnemy(enemy)
 end
 
 
-function Party.loadAssetsFor(unit) -- need since assets are only loaded once
+function Party.loadAssetsFor(unit)
     local characterDataRaw = love.filesystem.read("characters.json")
     if not characterDataRaw then
         error("Failed to read characters.json")
@@ -80,19 +80,41 @@ function Party.loadAssetsFor(unit) -- need since assets are only loaded once
         )
     }
 
-    if data.attack then
+    if data.skills then
         Party.memberSkills[unit] = {}
-        for _, atk_data in pairs(data.attack) do
+        for _, atk_data in pairs(data.skills) do
             local attack = Animation.new(
                 atk_data.file,
                 atk_data.frameCount,
                 atk_data.frameDuration,
                 2.5
             )
-            table.insert(Party.memberSkills[unit], {attack, atk_data.name, atk_data.description})
+            local atk_info = {
+                attack,
+                atk_data.name,
+                atk_data.description,
+                atk_data
+            }
+            table.insert(Party.memberSkills[unit], atk_info)
         end
     end
+
+    Party.memberStats[unit] = {
+        HP = data.stats.HP,
+        MP = data.stats.MP,
+        ATK = data.stats.ATK,
+        DEF = data.stats.DEF,
+        MAG = data.stats.MAG
+    }
+    Party.currMemberStats[unit] = {
+        currHP = data.stats.HP,
+        currMP = data.stats.MP
+    }
+
+    Party.currUnitAnimation[unit] = Party.animations[unit].idle
+    Party.selectedAttack[unit] = nil
 end
+
 
 
 function Party.addSummonedUnit(unit)
@@ -117,56 +139,18 @@ end
 
 
 function Party.loadAssets()
-    local jsonData = love.filesystem.read("characters.json")
-    if not jsonData then
-        error("Failed to read assets/characters.json")
+    local characterDataRaw = love.filesystem.read("characters.json")
+    if not characterDataRaw then
+        error("Failed to read characters.json")
     end
 
-    local characterData = lunajson.decode(jsonData)
-
-    for name, data in pairs(characterData) do
-        Party.animations[name] = {
-            idle = Animation.new(
-                data.idle.file,
-                data.idle.frameCount,
-                data.idle.frameDuration,
-                2.5
-            )
-        }
+    local characterData = lunajson.decode(characterDataRaw)
+    if not characterData then
+        error("Failed to decode characters.json")
     end
 
-    for index, name in pairs(Party.members) do
-        if index and characterData[name]["skills"] then
-            for _, atk_data in pairs(characterData[name]["skills"]) do
-                if not Party.memberSkills[name] then
-                    Party.memberSkills[name] = {nil, nil, nil, nil, nil}
-                end
-
-                local attack = Animation.new(
-                    atk_data.file,
-                    atk_data.frameCount,
-                    atk_data.frameDuration,
-                    2.5
-                )
-                local attack_name = atk_data.name
-                local attack_description = atk_data.description
-
-                local atk_info = {attack, attack_name, attack_description, atk_data}
-
-                table.insert(Party.memberSkills[name], atk_info)
-            end
-        end
-        -- local curr_name = characterData[data]["name"]
-        Party.currUnitAnimation[name] = Party.animations[name].idle
-        Party.selectedAttack[name] = nil
-
-        Party.memberStats[name] = {
-            HP = characterData[name]["stats"]["HP"], 
-            MP = characterData[name]["stats"]["MP"], 
-            ATK = characterData[name]["stats"]["ATK"], 
-            DEF = characterData[name]["stats"]["DEF"],
-            MAG = characterData[name]["stats"]["MAG"]}
-        Party.currMemberStats[name] = {currHP = characterData[name]["stats"]["HP"], currMP = characterData[name]["stats"]["MP"]}
+    for _, unit in ipairs(Party.members) do
+        Party.loadAssetsFor(unit)
     end
 end
 

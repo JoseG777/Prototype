@@ -1,12 +1,12 @@
 {
     "Swordsman": {
         "name": "Swordsman",
-        "rarity": "",
+        "rarity": "3★",
         "stats": {
-            "HP": 125,
+            "HP": 150,
             "MP": 0,
-            "ATK": 200,
-            "DEF": 20,
+            "ATK": 100,
+            "DEF": 70,
             "MAG": 0
         },
         "idle": {
@@ -69,13 +69,13 @@
     },
     "Archer": {
         "name": "Archer",
-        "rarity": "",
+        "rarity": "3★",
         "stats": {
-            "HP": 100,
+            "HP": 130,
             "MP": 0,
-            "ATK": 25,
-            "DEF": 15,
-            "MAG": null
+            "ATK": 110,
+            "DEF": 50,
+            "MAG": 0
         },
         "idle": {
             "file": "assets/characters/archer/archer_idle.png",
@@ -119,12 +119,12 @@
     },
     "Soldier": {
         "name": "Soldier",
-        "rarity": "",
+        "rarity": "3★",
         "stats": {
-            "HP": 110,
+            "HP": 160,
             "MP": 0,
-            "ATK": 30,
-            "DEF": 20,
+            "ATK": 90,
+            "DEF": 80,
             "MAG": 0
         },
         "idle": {
@@ -181,12 +181,12 @@
     },
     "Knight": {
         "name": "Knight",
-        "rarity": "",
+        "rarity": "3★",
         "stats": {
-            "HP": 115,
+            "HP": 200,
             "MP": 0,
-            "ATK": 30,
-            "DEF": 25,
+            "ATK": 120,
+            "DEF": 100,
             "MAG": 0
         },
         "idle": {
@@ -242,13 +242,13 @@
     },
     "Wizard": {
         "name": "Wizard",
-        "rarity": "",
+        "rarity": "4★",
         "stats": {
-            "HP": 110,
-            "MP": 100,
-            "ATK": 10,
-            "DEF": 10,
-            "MAG": 85
+            "HP": 140,
+            "MP": 120,
+            "ATK": 50,
+            "DEF": 40,
+            "MAG": 150
         },
         "idle": {
             "file": "assets/characters/wizard/wizard_idle.png",
@@ -306,13 +306,13 @@
     },
     "Magic Knight": {
         "name": "Magic Knight",
-        "rarity": "",
+        "rarity": "4★",
         "stats": {
-            "HP": 150,
-            "MP": 80,
-            "ATK": 85,
-            "DEF": 70,
-            "MAG": 45
+            "HP": 190,
+            "MP": 100,
+            "ATK": 110,
+            "DEF": 80,
+            "MAG": 70
         },
         "idle": {
             "file": "assets/characters/magic_knight/magic_knight_idle.png",
@@ -369,13 +369,13 @@
     },
     "Lancer": {
         "name": "Lancer",
-        "rarity": "",
+        "rarity": "5★",
         "stats": {
-            "HP": 200,
-            "MP": 80,
-            "ATK": 100,
-            "DEF": 80,
-            "MAG": 55
+            "HP": 250,
+            "MP": 100,
+            "ATK": 140,
+            "DEF": 110,
+            "MAG": 60
         },
         "idle": {
             "file": "assets/characters/lancer/lancer_idle.png",
@@ -436,13 +436,13 @@
     },
     "Priest": {
         "name": "Priest",
-        "rarity": "",
+        "rarity": "5★",
         "stats": {
             "HP": 300,
             "MP": 150,
-            "ATK": 100000,
-            "DEF": 100000,
-            "MAG": 150000
+            "ATK": 50,
+            "DEF": 50,
+            "MAG": 180
         },
         "idle": {
             "file": "assets/characters/priest/priest_idle.png",

@@ -1,7 +1,17 @@
 local Summon = require("mechanics.summon")
 local SummonScreen = require("screens.summon_screen")
+local Party = require("mechanics.party")
 
 local HomeScreen = {}
+
+function HomeScreen.canSummon()
+    for i = 1, 6 do
+        if not Party.members[i] then
+            return true
+        end
+    end
+    return false
+end
 
 local buttons = {
     {label = "Home", x = 50, y = 730, width = 100, height = 50, enabled = false},
@@ -9,6 +19,7 @@ local buttons = {
     {label = "Inventory", x = 270, y = 730, width = 100, height = 50, enabled = false},
     {label = "Summon", x = 380, y = 730, width = 100, height = 50, enabled = true}
 }
+
 
 function HomeScreen.draw()
     -- love.graphics.clear(0.1, 0.1, 0.3)
@@ -38,7 +49,7 @@ function HomeScreen.mousepressed(x, y, button)
                         summonResult = {unit = unit, rarity = rarity}
                         screen = "summon"
                         SummonScreen.enter(rarity)
-                        btn.enabled = false
+                        btn.enabled = HomeScreen.canSummon()
                     end
                 end
             end
