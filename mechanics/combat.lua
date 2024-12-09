@@ -16,7 +16,7 @@ function Combat.calculateDamage(attacker, target, atkData)
     local multiplier = math.random(85, 110) / 100
     local skillMultiplier = atkData.damageMultiplier or 1.0
 
-    return math.max(1, baseDamage * multiplier * skillMultiplier) -- account for negatives
+    return math.floor(math.max(1, baseDamage * multiplier * skillMultiplier)) -- account for negatives
 end
 
 function Combat.performAttack(attacker, target, attackAnimation, atkData, onComplete)

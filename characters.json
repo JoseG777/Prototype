@@ -440,9 +440,9 @@
         "stats": {
             "HP": 300,
             "MP": 150,
-            "ATK": 10,
-            "DEF": 10,
-            "MAG": 150
+            "ATK": 100000,
+            "DEF": 100000,
+            "MAG": 150000
         },
         "idle": {
             "file": "assets/characters/priest/priest_idle.png",

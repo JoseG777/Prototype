@@ -32,7 +32,7 @@ function FloatingNumbers.draw()
             number.value,
             number.x - 20, 
             number.y,
-            40,
+            80,
             "center"
         )
     end

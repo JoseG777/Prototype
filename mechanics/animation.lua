@@ -1,6 +1,6 @@
 local Animation = {}
 
-function Animation.new(filePath, frameCount, frameDuration, scaleFactor, rows)
+function Animation.new(filePath, frameCount, frameDuration, scaleFactor, rows, loop)
     local animation = {}
 
     animation.spriteSheet = love.graphics.newImage(filePath)
@@ -11,7 +11,7 @@ function Animation.new(filePath, frameCount, frameDuration, scaleFactor, rows)
     animation.scale = scaleFactor or 1
     animation.rows = rows or 1 
     animation.isPlaying = true
-    animation.loop = true
+    animation.loop = loop ~= false
 
     local totalWidth = animation.spriteSheet:getWidth()
     local totalHeight = animation.spriteSheet:getHeight()

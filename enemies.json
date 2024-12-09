@@ -7,15 +7,21 @@
             "frameDuration": 0.2,
             "rows": 2
         },
+        "death": {
+            "file": "assets/enemies/reaper/reaper_death.png",
+            "frameCount": 17,
+            "frameDuration": 0.2,
+            "rows": 2
+        },
         "position": {
             "x": 125,
             "y": 300
         },
         "scale": 4,
         "stats": {
-            "HP": 2000,
+            "HP": 200,
             "ATK": 100,
-            "DEF": 80,
+            "DEF": 1,
             "MAG": 50
         }
     }
