@@ -13,6 +13,7 @@ Party.animations = {}
 Party.currUnitAnimation = {}
 Party.selectedAttack = {} -- only one loaded attack for now
 Party.selectedAttackData = {} 
+
 Party.slots = { 
     {x = 137.5, y = 516}, -- Slot 1 {x = 412.5, y = 516}
     {x = 412.5, y = 516}, -- Slot 2 {x = 412.5, y = 598}
