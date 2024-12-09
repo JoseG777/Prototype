@@ -5,7 +5,7 @@ local Utils = require("utils")
 
 local Party = {}
 
-Party.members = {"Swordsman", "Archer", nil, nil, nil, nil} -- max of 6 units
+Party.members = {"Swordsman", "Archer","Priest", nil, nil, nil} -- max of 6 units
 Party.memberStats = {}
 Party.currMemberStats = {}
 Party.memberSkills = {} -- max of 5 skills per unit
