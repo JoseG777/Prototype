@@ -42,6 +42,7 @@ function Enemy.new(name)
     local enemy = {}
     enemy.name = name
     enemy.stats = enemyInfo.stats
+    enemy.maxHP = enemyInfo.stats.HP
     enemy.position = enemyInfo.position or {x = 0, y = 0}
     enemy.scale = enemyInfo.scale or 1
     enemy.idleAnimation = Animation.new(
@@ -109,6 +110,21 @@ function Enemy.new(name)
             self.idleAnimation:draw(self.position.x, self.position.y, false)
             -- Enemy.currentTarget = selectRandomTarget()
             -- print(Enemy.currentTarget.stats.HP)
+            local barWidth = 100 
+            local barHeight = 10 
+            local barX = self.position.x - barWidth / 2 
+            local barY = self.position.y - 80 
+    
+            local hpPercent = math.max(0, self.stats.HP / enemy.maxHP)
+    
+            love.graphics.setColor(0.2, 0.2, 0.2) 
+            love.graphics.rectangle("fill", barX, barY, barWidth, barHeight)
+    
+            love.graphics.setColor(0.8, 0.1, 0.1) 
+            love.graphics.rectangle("fill", barX, barY, barWidth * hpPercent, barHeight)
+    
+            love.graphics.setColor(1, 1, 1) 
+            love.graphics.rectangle("line", barX, barY, barWidth, barHeight)
         -- end
         else
             Enemy.currentCombatState:draw()
