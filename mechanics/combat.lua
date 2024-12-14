@@ -30,11 +30,20 @@ function Combat.performAttack(attacker, target, attackAnimation, atkData, onComp
         damageFramesHit = {},
     }
 
-    local targetX, targetY = target.position.x - 50, target.position.y - 75
+    local targetX, targetY = target.position.x, target.position.y
     local originalX, originalY = attacker.position.x, attacker.position.y
+    local isEnemy = nil
+    if attacker.isEnemy then
+        targetX = targetX - 130
+        isEnemy = false
+    else
+        targetX = targetX + 50
+        isEnemy = true
+    end
 
     attackAnimation:reset()
     attackAnimation:setLoop(false)
+
 
     function state:update(dt)
         if self.phase == "moveToTarget" then
@@ -83,7 +92,7 @@ function Combat.performAttack(attacker, target, attackAnimation, atkData, onComp
     end
 
     function state:draw()
-        attacker.animation:draw(attacker.position.x, attacker.position.y, true)
+        attacker.animation:draw(attacker.position.x, attacker.position.y, isEnemy)
     end
 
     return state

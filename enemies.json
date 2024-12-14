@@ -1,28 +1,45 @@
 {
-    "Reaper": {
-        "name": "Reaper",
-        "idle": {
-            "file": "assets/enemies/reaper/reaper_idle.png",
-            "frameCount": 8,
-            "frameDuration": 0.2,
-            "rows": 2
-        },
-        "death": {
-            "file": "assets/enemies/reaper/reaper_death.png",
-            "frameCount": 17,
-            "frameDuration": 0.2,
-            "rows": 2
-        },
-        "position": {
-            "x": 125,
-            "y": 300
-        },
-        "scale": 4,
+    "Orc Rider": {
+        "name": "Orc Rider",
         "stats": {
-            "HP": 2000,
-            "ATK": 200,
+            "HP": 200,
+            "ATK": 90,
             "DEF": 90,
             "MAG": 50
+        },
+        "idle": {
+            "file": "assets/enemies/orc_rider/orc_rider_idle.png",
+            "frameCount": 6,
+            "frameDuration": 0.2,
+            "rows": 1
+        },
+        "death": {
+            "file": "assets/enemies/orc_rider/orc_rider_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.2,
+            "rows": 1
+        },
+        "position": {
+            "x": 175,
+            "y": 275
+        },
+        "scale": 3,
+        "skills": {
+            "1": {
+                "file": "assets/enemies/orc_rider/orc_rider_attack_1.png",
+                "frameCount": 9,
+                "frameDuration": 0.25,
+                "rows": 1,
+                "type": "move_attack",
+                "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
+                "damageFrames": [
+                    5,
+                    6,
+                    7
+                ]
+            }
         }
     }
 }

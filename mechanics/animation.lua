@@ -51,10 +51,18 @@ function Animation.new(filePath, frameCount, frameDuration, scaleFactor, rows, l
         local offsetX = self.frameWidth / 2
         local offsetY = self.frameHeight / 2
 
-        love.graphics.draw(
+        --[[love.graphics.draw(
             self.spriteSheet,
             self.frames[self.currentFrame],
             x + offsetX * self.scale, y + offsetY * self.scale,
+            0,
+            flipScale * self.scale, self.scale,
+            offsetX, offsetY
+        )]]
+        love.graphics.draw(
+            self.spriteSheet,
+            self.frames[self.currentFrame],
+            x, y,
             0,
             flipScale * self.scale, self.scale,
             offsetX, offsetY

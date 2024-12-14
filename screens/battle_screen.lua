@@ -6,7 +6,7 @@ local background
 
 function BattleScreen.load()
     background = love.graphics.newImage("assets/backgrounds/battle.png")
-    enemy = Enemy.new("Reaper")
+    enemy = Enemy.new("Orc Rider")
     Party.setEnemy(enemy)
 end
 

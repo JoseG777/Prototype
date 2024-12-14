@@ -7,7 +7,7 @@ local Party = {}
 
 Party.members = {"Swordsman", "Archer","Priest", nil, nil, nil} -- max of 6 units
 Party.memberStats = {}
-Party.currMemberStats = {}
+-- Party.currMemberStats = {}
 Party.memberSkills = {} -- max of 5 skills per unit
 Party.animations = {}
 Party.currUnitAnimation = {}
@@ -31,12 +31,12 @@ Party.predefinedRects = {
     {leftX = 475, upperY = 450}, -- Slot 6
 }
 Party.unitPositions = {
-    {x = 275, y = 150}, -- Slot 1
-    {x = 375, y = 150}, -- Slot 2
-    {x = 275, y = 250}, -- Slot 3
-    {x = 375, y = 250}, -- Slot 4
-    {x = 275, y = 350}, -- Slot 5
-    {x = 375, y = 350}  -- Slot 6
+    {x = 400, y = 275}, -- Slot 1
+    {x = 500, y = 275}, -- Slot 2
+    {x = 400, y = 375}, -- Slot 3
+    {x = 500, y = 375}, -- Slot 4
+    {x = 400, y = 475}, -- Slot 5
+    {x = 500, y = 475}  -- Slot 6
 }
 
 Party.attackSelectionMode = false
@@ -49,8 +49,28 @@ Party.currentAttackers = {nil, nil, nil, nil, nil, nil}
 Party.currentAttackerIndexes = {nil, nil, nil, nil, nil, nil}
 Party.currentCombatStates = {nil, nil, nil, nil, nil, nil} 
 
+Party.targetUnits = {}
+Party.attackedCount = 5
+Party.playerTurn = true
+
 function Party.setEnemy(enemy)
     Party.currentEnemy = enemy
+end
+
+
+function Party.getIndex(unit)
+    for i = 1, 6 do
+        if Party.members[i] and Party.members[i] == unit then
+            return i
+        end
+    end
+end
+
+
+function Party.isPlayerTurn()
+    if Party.attackedCount >= 6 then
+        Party.playerTurn = false
+    end
 end
 
 
@@ -106,13 +126,22 @@ function Party.loadAssetsFor(unit)
         DEF = data.stats.DEF,
         MAG = data.stats.MAG
     }
-    Party.currMemberStats[unit] = {
+    
+    --[[Party.currMemberStats[unit] = {
         currHP = data.stats.HP,
         currMP = data.stats.MP
-    }
+    }]]
 
     Party.currUnitAnimation[unit] = Party.animations[unit].idle
     Party.selectedAttack[unit] = nil
+
+    local position_index = Party.getIndex(unit)
+    local curr_HP = data.stats.HP
+    local curr_MP = data.stats.MP
+    local curr_DEF = data.stats.DEF
+
+    Party.targetUnits[unit] = {position = {x = Party.unitPositions[position_index].x , y = Party.unitPositions[position_index].y}, stats = {HP = curr_HP, MP = curr_MP, DEF = curr_DEF}, alive = true}
+    -- Utils.printTable(Party.targetUnits[unit])
 end
 
 
@@ -226,64 +255,79 @@ function Party.draw()
             end
         end
     end
-    
-    if Party.isBattleMode and not Party.attackSelectionMode then
-        for i, slot in ipairs(Party.slots) do
-            if Party.members[i] then
-                local member = Party.members[i]
-  
-                love.graphics.setColor(0, 0, 0, 1)
-                love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
-                love.graphics.setColor(1, 1, 1, 1)
-                
-                local formattedMemberInfo = string.format("%s\nHP: %d/%d\n MP: %d/%d", member, Party.currMemberStats[member].currHP, Party.memberStats[member].HP, Party.currMemberStats[member].currMP, Party.memberStats[member].MP)
-                love.graphics.printf(
-                    formattedMemberInfo,
-                    slot.x - 40,
-                    slot.y + 30,
-                    85,
-                    "center"
-                )
-            else
-                love.graphics.setColor(0, 0, 0, 1)
-                love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
-                love.graphics.setColor(1, 1, 1, 1) 
-                love.graphics.printf("Empty", slot.x - 137.5, slot.y + 35, 275, "center")  
-            end
-            love.graphics.setColor(1, 1, 1, 1)
-            love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
-        end
-    elseif Party.isBattleMode and Party.attackSelectionMode then
-        local skills = Party.memberSkills[Party.selectedUnit]
-        for i, slot in ipairs(Party.slots) do
-            if i == 6 then
-                love.graphics.setColor(0, 0, 0, 1)
-                love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
-                love.graphics.setColor(1, 1, 1, 1) 
-                love.graphics.printf("Exit", slot.x - 137.5, slot.y + 35, 275, "center")
-            else
-                love.graphics.setColor(0, 0, 0, 1)
-                love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
-                love.graphics.setColor(1, 1, 1, 1)
-                if skills and skills[i] then
-                    local formattedAttackInfo = string.format("%s\n%s", skills[i][2], skills[i][3])
+
+    for i, rect in ipairs(Party.predefinedRects) do
+        love.graphics.setColor(0, 1, 0, 0.3) 
+        love.graphics.rectangle(
+            "fill", 
+            rect.leftX, 
+            rect.upperY, 
+            50,
+            50
+        )
+    end
+    love.graphics.setColor(1, 1, 1, 1)
+
+
+    if Party.playerTurn then 
+        if Party.isBattleMode and not Party.attackSelectionMode then
+            for i, slot in ipairs(Party.slots) do
+                if Party.members[i] then
+                    local member = Party.members[i]
+
+                    love.graphics.setColor(0, 0, 0, 1)
+                    love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
+                    love.graphics.setColor(1, 1, 1, 1)
+                    
+                    local formattedMemberInfo = string.format("%s\nHP: %d/%d\n MP: %d/%d", member, Party.targetUnits[member].stats.HP, Party.memberStats[member].HP, Party.targetUnits[member].stats.MP, Party.memberStats[member].MP)
                     love.graphics.printf(
-                        formattedAttackInfo, 
-                        slot.x - 137.5, 
-                        slot.y + 35, 
-                        275, 
-                        "center")
+                        formattedMemberInfo,
+                        slot.x - 40,
+                        slot.y + 30,
+                        85,
+                        "center"
+                    )
                 else
-                    love.graphics.printf(
-                        "Empty", 
-                        slot.x - 137.5, 
-                        slot.y + 35, 275, 
-                        "center")
+                    love.graphics.setColor(0, 0, 0, 1)
+                    love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
+                    love.graphics.setColor(1, 1, 1, 1) 
+                    love.graphics.printf("Empty", slot.x - 137.5, slot.y + 35, 275, "center")  
                 end
+                love.graphics.setColor(1, 1, 1, 1)
+                love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
             end
-            love.graphics.setColor(1, 1, 1, 1)
-            love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
-        end      
+        elseif Party.isBattleMode and Party.attackSelectionMode then
+            local skills = Party.memberSkills[Party.selectedUnit]
+            for i, slot in ipairs(Party.slots) do
+                if i == 6 then
+                    love.graphics.setColor(0, 0, 0, 1)
+                    love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
+                    love.graphics.setColor(1, 1, 1, 1) 
+                    love.graphics.printf("Exit", slot.x - 137.5, slot.y + 35, 275, "center")
+                else
+                    love.graphics.setColor(0, 0, 0, 1)
+                    love.graphics.rectangle("fill", slot.x - 137.5, slot.y + 10, 275, 82)
+                    love.graphics.setColor(1, 1, 1, 1)
+                    if skills and skills[i] then
+                        local formattedAttackInfo = string.format("%s\n%s", skills[i][2], skills[i][3])
+                        love.graphics.printf(
+                            formattedAttackInfo, 
+                            slot.x - 137.5, 
+                            slot.y + 35, 
+                            275, 
+                            "center")
+                    else
+                        love.graphics.printf(
+                            "Empty", 
+                            slot.x - 137.5, 
+                            slot.y + 35, 275, 
+                            "center")
+                    end
+                end
+                love.graphics.setColor(1, 1, 1, 1)
+                love.graphics.rectangle("line", slot.x - 137.5, slot.y + 10, 275, 82)
+            end      
+        end
     end
 end
 
@@ -352,6 +396,8 @@ function Party.mousepressed(x, y, button)
                         Party.currentAttackers[i] = nil
                         Party.currentAttackerIndexes[i] = nil
                         Party.selectedAttackData[curr_member] = nil
+                        Party.attackedCount = Party.attackedCount + 1
+                        Party.isPlayerTurn()
                     end
                 )
                 return
@@ -364,22 +410,3 @@ end
 
 
 return Party
-
-
-
-
-
-
-
-
-    --[[for i, rect in ipairs(Party.predefinedRects) do
-        love.graphics.setColor(0, 1, 0, 0.3) 
-        love.graphics.rectangle(
-            "fill", 
-            rect.leftX, 
-            rect.upperY, 
-            50,
-            50
-        )
-    end
-    love.graphics.setColor(1, 1, 1, 1)]]
