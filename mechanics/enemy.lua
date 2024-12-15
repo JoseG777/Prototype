@@ -33,16 +33,42 @@ Enemy.positions = {
     {x = 200, y = 475}  -- Slot 6
 }
 
+Enemy.predefinedRects = {
+    {leftX = 75, upperY = 250}, -- Slot 1
+    {leftX = 175, upperY = 250}, -- Slot 2
+    {leftX = 75, upperY = 350}, -- Slot 3
+    {leftX = 175, upperY = 350}, -- Slot 4
+    {leftX = 75, upperY = 450}, -- Slot 5
+    {leftX = 175, upperY = 450}, -- Slot 6
+}
+
+
+function Enemy.defeated()
+    for _, enemyInfo in pairs(Enemy.enemyInfo) do
+        if enemyInfo.stats.HP > 0 then
+            return false
+        end
+    end
+    return true
+end
+
+
+function Enemy.setNewEnemy()
+    for enemyName, enemyInfo in pairs(Enemy.enemyInfo) do
+        if enemyInfo.stats.HP > 0 then
+            Party.setEnemy(Enemy.enemyInfo[enemyName])
+            return
+        end
+    end
+end
+
 
 function Enemy.noCombat()
     for i = 1, 6 do
         if Enemy.currentCombatStates[Enemy.enemies[i]] then
-            -- print("true")
-            -- print(Enemy.enemies[i])
             return true
         end
     end
-   --  print("false")
     return false
 end
 
@@ -223,7 +249,7 @@ function Enemy.update(dt)
             end
             Enemy.calledPAOnce = true
         end
-        print(Enemy.calledPAOnce)
+        -- print(Enemy.calledPAOnce)
         if Enemy.noCombat() then
             if Enemy.enemies[1] and Enemy.currentCombatStates[Enemy.enemies[1]] then
                 Enemy.currentCombatStates[Enemy.enemies[1]]:update(dt)
@@ -271,6 +297,10 @@ end
 
 
 function Enemy.draw()
+    -- Enemy.setNewEnemy()
+    if not Party.currentEnemy then
+        Enemy.setNewEnemy()
+    end
     for _, enemyName in ipairs(Enemy.enemies) do
         local enemyInfo = Enemy.enemyInfo[enemyName]
         local animation = Enemy.currEnemyAnimation[enemyName]
@@ -319,119 +349,39 @@ function Enemy.draw()
         end
     end
 
+    for i, rect in ipairs(Enemy.predefinedRects) do
+        love.graphics.setColor(0, 1, 0, 0.3) 
+        love.graphics.rectangle(
+            "fill", 
+            rect.leftX, 
+            rect.upperY, 
+            50,
+            50
+        )
+    end
+    love.graphics.setColor(1, 1, 1, 1)
+
 end
 
 
---[[function Enemy.new(name)
-    local jsonData = love.filesystem.read("enemies.json")
-    if not jsonData then
-        error("Failed to read enemies.json")
-    end
+function Enemy.mousepressed(x, y, button)
+    if button ~= 1 then return end
 
-    local enemyData = lunajson.decode(jsonData)
-    local enemyInfo = enemyData[name]
+    -- Iterate over predefined rects to check if clicked
+    for i, box in ipairs(Enemy.predefinedRects or {}) do
+        local curr_enemy = Enemy.enemies[i]
 
-    if not enemyInfo then
-        error("No data found for enemy: " .. name)
-    end
-
-    local enemy = {}
-    enemy.name = name
-    enemy.stats = enemyInfo.stats
-    enemy.maxHP = enemyInfo.stats.HP
-    enemy.position = enemyInfo.position or {x = 0, y = 0}
-    enemy.scale = enemyInfo.scale or 1
-    enemy.idleAnimation = Animation.new(
-        enemyInfo.idle.file,
-        enemyInfo.idle.frameCount,
-        enemyInfo.idle.frameDuration,
-        enemy.scale,
-        enemyInfo.idle.rows
-    )
-    enemy.death = Animation.new(
-        enemyInfo.death.file,
-        enemyInfo.death.frameCount,
-        enemyInfo.death.frameDuration,
-        enemy.scale,
-        enemyInfo.death.rows,
-        false
-    )
-    enemy.skills = {}
-    enemy.isEnemy = true
-    for _, skill_info in pairs(enemyInfo.skills) do
-        local attack = Animation.new(
-            skill_info.file,
-            skill_info.frameCount,
-            skill_info.frameDuration,
-            enemy.scale,
-            skill_info.rows
-        )
-        local atk_info = {
-            attack,
-            skill_info
-        }
-        table.insert(enemy.skills, atk_info)
-    end
-    enemy.animation = enemy.skills[1][1]
-
-
-    function enemy:update(dt)
-        if enemy.stats.HP > 0 and Party.playerTurn then
-            -- Enemy.currEnemyAnimation["Orc Rider"]:update(dt)
-        end
-        if not Party.playerTurn and Enemy.currentCombatState then
-            Enemy.currentCombatState:update(dt)
+        if curr_enemy and Enemy.enemyInfo[curr_enemy] and Enemy.enemyInfo[curr_enemy].stats.HP > 0 then
+            -- Check if click is inside the box
+            if x >= box.leftX and x <= box.leftX + 50 and y >= box.upperY and y <= box.upperY + 50 then
+                Party.setEnemy(Enemy.enemyInfo[curr_enemy])
+                print(curr_enemy, "is alive and clicked!")
+            end
+        -- elseif curr_enemy then
+        --    print(curr_enemy, "is dead.")
         end
     end
+end
 
-
-    Enemy.currentTarget = selectRandomTarget()
-
-    Enemy.currentCombatState = Combat.performAttack(
-        enemy,
-        Enemy.currentTarget,
-        enemy.skills[1][1],
-        enemy.skills[1][2],
-        function()
-            Party.attackedCount = 5 
-            Party.playerTurn = true
-            Enemy.currentTarget = selectRandomTarget()
-        end
-    )
-    
-
-    function enemy:draw()
-        local enemy = "Orc Rider" 
-        local enemyInfo = Enemy.enemyInfo[enemy]
-        local animation = Enemy.animations[enemy]
-        local currHP = enemyInfo.stats.HP
-        local maxHP = Enemy.enemyTotalHP[enemy][1]
-    
-        if currHP > 0 then
-            animation.idle:draw(enemyInfo.position.x, enemyInfo.position.y, false)
-    
-            local barWidth = 100
-            local barHeight = 10
-            local barX = enemyInfo.position.x - barWidth / 2
-            local barY = enemyInfo.position.y - 80
-    
-            local hpPercent = math.max(0, currHP / maxHP)
-    
-            love.graphics.setColor(0.2, 0.2, 0.2)
-            love.graphics.rectangle("fill", barX, barY, barWidth, barHeight)
-    
-            love.graphics.setColor(0.8, 0.1, 0.1)
-            love.graphics.rectangle("fill", barX, barY, barWidth * hpPercent, barHeight)
-    
-            love.graphics.setColor(1, 1, 1) 
-            love.graphics.rectangle("line", barX, barY, barWidth, barHeight)
-        else
-            Enemy.currentCombatState:draw()
-        end
-    end
-
-
-    return enemy
-end]]
 
 return Enemy

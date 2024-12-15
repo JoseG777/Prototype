@@ -5,7 +5,7 @@ local Utils = require("utils")
 
 local Party = {}
 
-Party.members = {"Swordsman", "Archer","Priest", nil, nil, nil} -- max of 6 units
+Party.members = {"Swordsman", "Archer", nil , nil, nil, nil} -- max of 6 units
 Party.memberStats = {}
 -- Party.currMemberStats = {}
 Party.memberSkills = {} -- max of 5 skills per unit
@@ -51,8 +51,20 @@ Party.currentAttackerIndexes = {nil, nil, nil, nil, nil, nil}
 Party.currentCombatStates = {nil, nil, nil, nil, nil, nil} 
 
 Party.targetUnits = {}
-Party.attackedCount = 5
+Party.attackedCount = -4
 Party.playerTurn = true
+
+
+function Party.defeated()
+    for _, unitInfo in pairs(Party.targetUnits) do
+        if unitInfo.stats.HP > 0 then
+            -- print(_)
+            return false
+        end
+    end
+    return true 
+end
+
 
 function Party.setEnemy(enemy)
     Party.currentEnemy = enemy
@@ -267,6 +279,7 @@ end
 
 
 function Party.draw()
+    -- print(Party.currentEnemy.position.x)
     for i = 1, 6 do
         if not Party.currentAttackerIndexes[i] then
             local member = Party.members[i]
