@@ -44,6 +44,7 @@ Party.selectedUnit = nil
 Party.isBattleMode = false 
 Party.currentAnimation = nil
 Party.currentEnemy = nil
+Party.enemyTargets = {}
 
 Party.currentAttackers = {nil, nil, nil, nil, nil, nil}
 Party.currentAttackerIndexes = {nil, nil, nil, nil, nil, nil}
@@ -157,22 +158,32 @@ function Party.loadAssetsFor(unit)
     local curr_MP = data.stats.MP
     local curr_DEF = data.stats.DEF
 
-    Party.targetUnits[unit] = {position = {x = Party.unitPositions[position_index].x , y = Party.unitPositions[position_index].y}, stats = {HP = curr_HP, MP = curr_MP, DEF = curr_DEF}}
+    Party.targetUnits[unit] = {
+        position = {x = Party.unitPositions[position_index].x , y = Party.unitPositions[position_index].y}, 
+        stats = {HP = curr_HP, MP = curr_MP, DEF = curr_DEF}}
     -- Utils.printTable(Party.targetUnits[unit])
 end
 
 
 
 function Party.addSummonedUnit(unit)
-    Party.loadAssetsFor(unit)
+    local insert_index = nil
     for i = 1, 6 do
         if not Party.members[i] then
             Party.members[i] = unit
+            insert_index = i
+            break
+        end
+    end
+
+    Party.loadAssetsFor(unit)
+    -- for i = 1, 6 do
+    --     if Party.members[i] == unit then
             Party.currUnitAnimation[unit] = Party.animations[unit].idle
             Party.selectedAttack[unit] = nil
             return
-        end
-    end
+    --     end
+    -- end
 end
 
 
@@ -212,13 +223,13 @@ end
 
 
 function Party.update(dt)
-    if Party.members[1] and Party.currUnitAnimation[Party.members[1]] then
+    if Party.members[1] and Party.currUnitAnimation[Party.members[1]] and Party.isAlive(Party.members[1]) then
         Party.currUnitAnimation[Party.members[1]]:update(dt)
     end
-    if Party.members[2] and Party.currUnitAnimation[Party.members[2]] then
+    if Party.members[2] and Party.currUnitAnimation[Party.members[2]] and Party.isAlive(Party.members[2]) then
         Party.currUnitAnimation[Party.members[2]]:update(dt)
     end
-    if Party.members[3] and Party.currUnitAnimation[Party.members[3]] then
+    if Party.members[3] and Party.currUnitAnimation[Party.members[3]] and Party.isAlive(Party.members[3]) then
         Party.currUnitAnimation[Party.members[3]]:update(dt)
     end
     if Party.members[4] and Party.currUnitAnimation[Party.members[4]] then
@@ -232,7 +243,6 @@ function Party.update(dt)
     end
     
     if Party.noCombat() then
-        -- Party.currentCombatState:update(dt)
         if Party.currentCombatStates[1] then
             Party.currentCombatStates[1]:update(dt)
         end
@@ -415,6 +425,7 @@ function Party.mousepressed(x, y, button)
                 }
         
                 Party.currUnitAnimation[curr_member] = Party.selectedAttack[curr_member]
+                -- print("we are here")
                 
                 Party.currentCombatStates[i] = Combat.performAttack(
                     attacker,
@@ -428,7 +439,11 @@ function Party.mousepressed(x, y, button)
                         Party.currentAttackerIndexes[i] = nil
                         Party.selectedAttackData[curr_member] = nil
                         Party.attackedCount = Party.attackedCount + 1
+                        Party.currentCombatStates[i] = nil
                         Party.isPlayerTurn()
+                        if Party.currentEnemy.stats.HP <= 0 then
+                            Party.currentEnemy = nil
+                        end
                     end
                 )
                 return

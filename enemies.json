@@ -2,9 +2,9 @@
     "Orc Rider": {
         "name": "Orc Rider",
         "stats": {
-            "HP": 200,
-            "ATK": 90000000,
-            "DEF": 90,
+            "HP": 300,
+            "ATK": 120,
+            "DEF": 80,
             "MAG": 50
         },
         "idle": {
@@ -18,10 +18,6 @@
             "frameCount": 4,
             "frameDuration": 0.2,
             "rows": 1
-        },
-        "position": {
-            "x": 175,
-            "y": 275
         },
         "scale": 3,
         "skills": {
@@ -38,6 +34,193 @@
                     5,
                     6,
                     7
+                ]
+            }
+        }
+    },
+    "Orc": {
+        "name": "Orc",
+        "stats": {
+            "HP": 180,
+            "ATK": 72,
+            "DEF": 48,
+            "MAG": 30
+        },
+        "idle": {
+            "file": "assets/enemies/orc/orc_idle.png",
+            "frameCount": 6,
+            "frameDuration": 0.2,
+            "rows": 1
+        },
+        "death": {
+            "file": "assets/enemies/orc/orc_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.2,
+            "rows": 1
+        },
+        "scale": 3,
+        "skills": {
+            "1": {
+                "file": "assets/enemies/orc/orc_attack_1.png",
+                "frameCount": 6,
+                "frameDuration": 0.25,
+                "rows": 1,
+                "type": "move_attack",
+                "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
+                "damageFrames": [
+                    4
+                ]
+            }
+        }
+    },
+    "Greatsword Skeleton": {
+        "name": "Greatsword Skeleton",
+        "stats": {
+            "HP": 350,
+            "ATK": 140,
+            "DEF": 100,
+            "MAG": 40
+        },
+        "idle": {
+            "file": "assets/enemies/greatsword_skeleton/greatsword_skeleton_idle.png",
+            "frameCount": 6,
+            "frameDuration": 0.2,
+            "rows": 1
+        },
+        "death": {
+            "file": "assets/enemies/greatsword_skeleton/greatsword_skeleton_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.2,
+            "rows": 1
+        },
+        "scale": 3,
+        "skills": {
+            "1": {
+                "file": "assets/enemies/greatsword_skeleton/greatsword_skeleton_attack_1.png",
+                "frameCount": 12,
+                "frameDuration": 0.25,
+                "rows": 1,
+                "type": "move_attack",
+                "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
+                "damageFrames": [
+                    7,
+                    8,
+                    9
+                ]
+            }
+        }
+    },
+    "Skeleton": {
+        "name": "Skeleton",
+        "stats": {
+            "HP": 210,
+            "ATK": 84,
+            "DEF": 60,
+            "MAG": 24
+        },
+        "idle": {
+            "file": "assets/enemies/skeleton/skeleton_idle.png",
+            "frameCount": 6,
+            "frameDuration": 0.2,
+            "rows": 1
+        },
+        "death": {
+            "file": "assets/enemies/skeleton/skeleton_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.2,
+            "rows": 1
+        },
+        "scale": 3,
+        "skills": {
+            "1": {
+                "file": "assets/enemies/skeleton/skeleton_attack_1.png",
+                "frameCount": 6,
+                "frameDuration": 0.25,
+                "rows": 1,
+                "type": "move_attack",
+                "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
+                "damageFrames": [
+                    4
+                ]
+            }
+        }
+    },
+    "Werebear": {
+        "name": "Werebear",
+        "stats": {
+            "HP": 400,
+            "ATK": 130,
+            "DEF": 120,
+            "MAG": 60
+        },
+        "idle": {
+            "file": "assets/enemies/werebear/werebear_idle.png",
+            "frameCount": 6,
+            "frameDuration": 0.2,
+            "rows": 1
+        },
+        "death": {
+            "file": "assets/enemies/werebear/werebear_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.2,
+            "rows": 1
+        },
+        "scale": 3,
+        "skills": {
+            "1": {
+                "file": "assets/enemies/werebear/werebear_attack_1.png",
+                "frameCount": 9,
+                "frameDuration": 0.25,
+                "rows": 1,
+                "type": "move_attack",
+                "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": 1.5,
+                "damageFrames": [
+                    6
+                ]
+            }
+        }
+    },
+    "Werewolf": {
+        "name": "Werewolf",
+        "stats": {
+            "HP": 240,
+            "ATK": 78,
+            "DEF": 72,
+            "MAG": 36
+        },
+        "idle": {
+            "file": "assets/enemies/werewolf/werewolf_idle.png",
+            "frameCount": 6,
+            "frameDuration": 0.2,
+            "rows": 1
+        },
+        "death": {
+            "file": "assets/enemies/werewolf/werewolf_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.2,
+            "rows": 1
+        },
+        "scale": 3,
+        "skills": {
+            "1": {
+                "file": "assets/enemies/werewolf/werewolf_attack_1.png",
+                "frameCount": 9,
+                "frameDuration": 0.25,
+                "rows": 1,
+                "type": "move_attack",
+                "delivery": "direct",
+                "damageType": "physical",
+                "damageMultiplier": null,
+                "damageFrames": [
+                    6
                 ]
             }
         }

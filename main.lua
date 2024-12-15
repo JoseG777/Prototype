@@ -4,6 +4,7 @@ local SummonScreen = require("screens.summon_screen")
 local Vortex = require("mechanics.vortex")
 local BattleScreen = require("screens.battle_screen")
 local FloatingNumbers = require("mechanics.damage_display")
+local Enemy = require("mechanics.enemy")
 
 local background
 
@@ -18,6 +19,7 @@ function love.load()
     Party.loadAssets()
     Vortex.load()
     BattleScreen.load()
+    Enemy.loadAssets()
 end
 
 function love.draw()
@@ -39,6 +41,7 @@ function love.draw()
 
         BattleScreen.draw()
         Party.draw() 
+        Enemy.draw()
         FloatingNumbers.draw()
     end
 end
@@ -69,6 +72,7 @@ function love.update(dt)
             screen = "home"
         end)
     elseif screen == "battle" then
+        Enemy.update(dt)
         Party.update(dt) 
         BattleScreen.update(dt)
         FloatingNumbers.update(dt)

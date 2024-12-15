@@ -6,12 +6,12 @@ local background
 
 function BattleScreen.load()
     background = love.graphics.newImage("assets/backgrounds/battle.png")
-    enemy = Enemy.new("Orc Rider")
-    Party.setEnemy(enemy)
+    -- enemy = Enemy.new("Orc Rider")
+    -- Party.setEnemy(enemy)
 end
 
 function BattleScreen.update(dt)
-    enemy:update(dt)
+    -- enemy:update(dt)
 end
 
 function BattleScreen.draw()
@@ -19,7 +19,7 @@ function BattleScreen.draw()
     local sx = 550 / bgWidth
     local sy = 800 / bgHeight
     love.graphics.draw(background, 0, 0, 0, sx, sy)
-    enemy:draw()
+    -- enemy:draw()
 end
 
 return BattleScreen

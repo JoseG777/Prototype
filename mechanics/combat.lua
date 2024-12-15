@@ -92,7 +92,13 @@ function Combat.performAttack(attacker, target, attackAnimation, atkData, onComp
     end
 
     function state:draw()
-        attacker.animation:draw(attacker.position.x, attacker.position.y, isEnemy)
+        if not isEnemy then
+            -- Utils.printTable(attacker.animation[1][1])
+            -- print(attacker.animation)
+            attacker.animation:draw(attacker.position.x, attacker.position.y, isEnemy)
+        else
+            attacker.animation:draw(attacker.position.x, attacker.position.y, isEnemy)
+        end
     end
 
     return state
