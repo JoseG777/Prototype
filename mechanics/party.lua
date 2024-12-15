@@ -74,6 +74,16 @@ function Party.isPlayerTurn()
 end
 
 
+function Party.isAlive(member)
+    -- Party.currUnitAnimation[member] = Party.animations[member].death
+    if Party.targetUnits[member].stats.HP <= 0 then
+        Party.currUnitAnimation[member] = Party.animations[member].death
+        return false
+    end
+    return true
+end
+
+
 function Party.loadAssetsFor(unit)
     local characterDataRaw = love.filesystem.read("characters.json")
     if not characterDataRaw then
@@ -97,6 +107,13 @@ function Party.loadAssetsFor(unit)
             data.idle.frameCount,
             data.idle.frameDuration,
             2.5
+        ),
+        death = Animation.new(
+            data.death.file,
+            data.death.frameCount,
+            data.death.frameDuration,
+            2.5,
+            false
         )
     }
 
@@ -140,7 +157,7 @@ function Party.loadAssetsFor(unit)
     local curr_MP = data.stats.MP
     local curr_DEF = data.stats.DEF
 
-    Party.targetUnits[unit] = {position = {x = Party.unitPositions[position_index].x , y = Party.unitPositions[position_index].y}, stats = {HP = curr_HP, MP = curr_MP, DEF = curr_DEF}, alive = true}
+    Party.targetUnits[unit] = {position = {x = Party.unitPositions[position_index].x , y = Party.unitPositions[position_index].y}, stats = {HP = curr_HP, MP = curr_MP, DEF = curr_DEF}}
     -- Utils.printTable(Party.targetUnits[unit])
 end
 
@@ -242,8 +259,22 @@ end
 function Party.draw()
     for i = 1, 6 do
         if not Party.currentAttackerIndexes[i] then
-            if Party.members[i] and Party.currUnitAnimation[Party.members[i]] then
-                Party.currUnitAnimation[Party.members[i]]:draw(Party.unitPositions[i].x, Party.unitPositions[i].y, true)
+            local member = Party.members[i]
+            if member then
+                local unitData = Party.targetUnits[member]
+                
+                if unitData.stats.HP <= 0 then
+                    -- Draw only the final frame of the death animation
+                    local deathAnim = Party.animations[member].death
+                    local lastFrame = #deathAnim.frames
+                    deathAnim:drawFrame(lastFrame, Party.unitPositions[i].x, Party.unitPositions[i].y, true)
+                else
+                    -- Draw the current animation (idle, attack, etc.)
+                    local anim = Party.currUnitAnimation[member]
+                    if anim then
+                        anim:draw(Party.unitPositions[i].x, Party.unitPositions[i].y, true)
+                    end
+                end
             end
         end
     end
@@ -256,7 +287,7 @@ function Party.draw()
         end
     end
 
-    for i, rect in ipairs(Party.predefinedRects) do
+    --[[for i, rect in ipairs(Party.predefinedRects) do
         love.graphics.setColor(0, 1, 0, 0.3) 
         love.graphics.rectangle(
             "fill", 
@@ -266,7 +297,7 @@ function Party.draw()
             50
         )
     end
-    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.setColor(1, 1, 1, 1)]]
 
 
     if Party.playerTurn then 
@@ -359,7 +390,7 @@ function Party.mousepressed(x, y, button)
     else
 
         for i, slot in ipairs(Party.slots) do
-            if Party.members[i] and x >= slot.x - 137.5 and x <= slot.x + 137.5 and y >= slot.y + 10 and y <= slot.y + 92 then
+            if Party.members[i] and x >= slot.x - 137.5 and x <= slot.x + 137.5 and y >= slot.y + 10 and y <= slot.y + 92 and Party.isAlive(Party.members[i]) then
                 Party.attackSelectionMode = true
                 Party.selectedUnit = Party.members[i]
                 return

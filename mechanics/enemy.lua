@@ -13,7 +13,7 @@ function selectRandomTarget()
     local aliveTargets = {} 
 
     for _, target in pairs(Party.targetUnits) do
-        if target.alive then 
+        if target.stats.HP > 0 then 
             table.insert(aliveTargets, target)
         end
     end
@@ -89,6 +89,7 @@ function Enemy.new(name)
         end
     end
 
+
     Enemy.currentTarget = selectRandomTarget()
 
     Enemy.currentCombatState = Combat.performAttack(
@@ -99,6 +100,7 @@ function Enemy.new(name)
         function()
             Party.attackedCount = 5 
             Party.playerTurn = true
+            Enemy.currentTarget = selectRandomTarget()
         end
     )
     
@@ -130,6 +132,7 @@ function Enemy.new(name)
             Enemy.currentCombatState:draw()
         end
     end
+
 
     return enemy
 end

@@ -3,7 +3,7 @@
         "name": "Orc Rider",
         "stats": {
             "HP": 200,
-            "ATK": 90,
+            "ATK": 90000000,
             "DEF": 90,
             "MAG": 50
         },

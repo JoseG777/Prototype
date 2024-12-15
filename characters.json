@@ -14,6 +14,11 @@
             "frameCount": 6,
             "frameDuration": 0.1
         },
+        "death": {
+            "file": "assets/characters/swordsman/swordsman_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.15
+        },
         "skills": {
             "1": {
                 "file": "assets/characters/swordsman/swordsman_attack_1.png",
@@ -82,6 +87,11 @@
             "frameCount": 6,
             "frameDuration": 0.1
         },
+        "death": {
+            "file": "assets/characters/archer/archer_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.15
+        },
         "skills": {
             "1": {
                 "file": "assets/characters/archer/archer_attack_1.png",
@@ -131,6 +141,11 @@
             "file": "assets/characters/soldier/soldier_idle.png",
             "frameCount": 6,
             "frameDuration": 0.1
+        },
+        "death": {
+            "file": "assets/characters/soldier/soldier_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.15
         },
         "skills": {
             "1": {
@@ -194,6 +209,11 @@
             "frameCount": 6,
             "frameDuration": 0.1
         },
+        "death": {
+            "file": "assets/characters/knight/knight_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.15
+        },
         "skills": {
             "1": {
                 "file": "assets/characters/knight/knight_attack_1.png",
@@ -254,6 +274,11 @@
             "file": "assets/characters/wizard/wizard_idle.png",
             "frameCount": 6,
             "frameDuration": 0.1
+        },
+        "death": {
+            "file": "assets/characters/wizard/wizard_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.15
         },
         "skills": {
             "1": {
@@ -319,6 +344,11 @@
             "frameCount": 6,
             "frameDuration": 0.1
         },
+        "death": {
+            "file": "assets/characters/magic_knight/magic_knight_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.15
+        },
         "skills": {
             "1": {
                 "file": "assets/characters/magic_knight/magic_knight_attack_1.png",
@@ -381,6 +411,11 @@
             "file": "assets/characters/lancer/lancer_idle.png",
             "frameCount": 6,
             "frameDuration": 0.1
+        },
+        "death": {
+            "file": "assets/characters/lancer/lancer_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.15
         },
         "skills": {
             "1": {
@@ -448,6 +483,11 @@
             "file": "assets/characters/priest/priest_idle.png",
             "frameCount": 6,
             "frameDuration": 0.1
+        },
+        "death": {
+            "file": "assets/characters/priest/priest_death.png",
+            "frameCount": 4,
+            "frameDuration": 0.15
         },
         "skills": {
             "1": {

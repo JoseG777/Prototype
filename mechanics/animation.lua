@@ -28,6 +28,7 @@ function Animation.new(filePath, frameCount, frameDuration, scaleFactor, rows, l
         end
     end
 
+
     function animation:update(dt)
         if not self.isPlaying then return end
         self.elapsedTime = self.elapsedTime + dt
@@ -45,6 +46,7 @@ function Animation.new(filePath, frameCount, frameDuration, scaleFactor, rows, l
             end
         end
     end
+
 
     function animation:draw(x, y, flip)
         local flipScale = flip and -1 or 1
@@ -69,15 +71,38 @@ function Animation.new(filePath, frameCount, frameDuration, scaleFactor, rows, l
         )
     end
 
+
+    function animation:drawFrame(frameIndex, x, y, flip)
+        if not self.frames or not self.frames[frameIndex] then
+            error("Invalid frame index: " .. tostring(frameIndex))
+        end
+    
+        local flipScale = flip and -1 or 1
+        local offsetX = self.frameWidth / 2
+        local offsetY = self.frameHeight / 2
+    
+        love.graphics.draw(
+            self.spriteSheet,
+            self.frames[frameIndex],
+            x, y,
+            0,
+            flipScale * self.scale, self.scale,
+            offsetX, offsetY
+        )
+    end
+    
+
     function animation:getDuration()
         return frameCount * frameDuration
     end
+
 
     function animation:reset()
         self.currentFrame = 1
         self.elapsedTime = 0
         self.isPlaying = true
     end
+    
 
     function animation:setLoop(loop)
         self.loop = loop
