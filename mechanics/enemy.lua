@@ -6,10 +6,11 @@ local Utils = require("utils")
 
 local Enemy = {}
 
-Enemy.currentCombatState = nil
+-- Enemy.currentCombatState = nil
 
-Enemy.currentTarget = nil
-Enemy.enemies = {"Orc Rider", "Werewolf", "Werebear", "Orc", "Skeleton", "Greatsword Skeleton"}
+-- Enemy.currentTarget = nil
+Enemy.enemies = {nil, nil, nil, nil, nil, nil}
+Enemy.aliveEnemies = {}
 Enemy.enemySkills = {}
 
 Enemy.animations = {}
@@ -23,6 +24,8 @@ Enemy.enemyTotalHP = {}
 Enemy.attackCounter = 0 
 
 Enemy.calledPAOnce = false
+
+Enemy.drawEnemies = true
 
 Enemy.positions = {
     {x = 100, y = 275}, -- Slot 1
@@ -43,13 +46,50 @@ Enemy.predefinedRects = {
 }
 
 
+function Enemy.printDebugInfo()
+    print("===== Enemy Debug Info =====")
+    for enemyName, enemyInfo in pairs(Enemy.enemyInfo) do
+        if enemyInfo then
+            print("Enemy Name:", enemyName)
+            if enemyInfo.position then
+                print("  Position: x =", enemyInfo.position.x, "y =", enemyInfo.position.y)
+            else
+                print("  Position: None")
+            end
+            if enemyInfo.stats then
+                print("  HP:", enemyInfo.stats.HP, "ATK:", enemyInfo.stats.ATK, "DEF:", enemyInfo.stats.DEF, "MAG:", enemyInfo.stats.MAG)
+            else
+                print("  Stats: None")
+            end
+            print("  Death Triggered:", enemyInfo.deathTriggered)
+        else
+            print("Enemy Name:", enemyName, "-> Missing Info!")
+        end
+    end
+    print("===========================")
+end
+
+
 function Enemy.defeated()
     for _, enemyInfo in pairs(Enemy.enemyInfo) do
         if enemyInfo.stats.HP > 0 then
+            Enemy.drawEnemies = true
             return false
         end
     end
+    Enemy.drawEnemies = false
     return true
+end
+
+
+function Enemy.lastEnemy()
+    local count = 0
+    for _, enemyInfo in pairs(Enemy.enemyInfo) do
+        if enemyInfo.stats.HP > 0 then
+            count = count + 1
+        end
+    end
+    return count == 1
 end
 
 
@@ -79,6 +119,8 @@ function Enemy.getIndex(enemy)
             return i
         end
     end
+    print("Enemy.getIndex: Unable to find index for", enemy)
+    return nil
 end
 
 
@@ -156,6 +198,8 @@ function Enemy.loadAssetsFor(enemy)
     local position_index = Enemy.getIndex(enemy)
     local total_hp = data.stats.HP
 
+    print("we make it here")
+
     Enemy.enemyInfo[enemy] = {
         position = {x = Enemy.positions[position_index].x, y = Enemy.positions[position_index].y}, 
         stats = {HP = data.stats.HP, ATK = data.stats.ATK, DEF = data.stats.DEF, MAG = data.stats.MAG},
@@ -166,12 +210,25 @@ function Enemy.loadAssetsFor(enemy)
 end
 
 
-function Enemy.triggerDeath(enemyName)
+--[[function Enemy.triggerDeath(enemyName)
     local enemyInfo = Enemy.enemyInfo[enemyName]
     if not enemyInfo.deathTriggered then
         enemyInfo.deathTriggered = true
         Enemy.currEnemyAnimation[enemyName] = Enemy.animations[enemyName].death
         Enemy.currEnemyAnimation[enemyName]:reset() 
+    end
+end]]
+
+
+function Enemy.updateAliveEnemies()
+    for i = #Enemy.aliveEnemies, 1, -1 do 
+        local enemyName = Enemy.aliveEnemies[i]
+        local enemyInfo = Enemy.enemyInfo[enemyName]
+
+        if enemyInfo and enemyInfo.stats.HP <= 0 then
+            table.remove(Enemy.aliveEnemies, i)
+            print("Removed", enemyName, "from aliveEnemies")
+        end
     end
 end
 
@@ -182,6 +239,19 @@ function Enemy.loadAssets()
     end
 end
 
+
+function Enemy.addNewEnemy(enemy)
+    local insert_index = nil
+    for i = 1, 6 do
+        if not Enemy.enemies[i] then
+            Enemy.enemies[i] = enemy
+            insert_index = i
+            break
+        end
+    end
+    table.insert(Enemy.aliveEnemies, enemy)
+    Enemy.loadAssetsFor(enemy)
+end
 
 function Enemy.performAttack(enemyName)
     -- for _, enemyName in ipairs(Enemy.enemies) do
@@ -209,7 +279,7 @@ function Enemy.performAttack(enemyName)
                         Enemy.attackCounter = Enemy.attackCounter + 1
                         -- print(" called ")
                         Enemy.enemyTargetSelected[enemyName] = false
-                        if Enemy.attackCounter >= #Enemy.enemies then
+                        if Enemy.attackCounter >= #Enemy.aliveEnemies then
                             Enemy.attackCounter = 0 
                             Party.playerTurn = true 
                             Party.attackedCount = 0
@@ -225,6 +295,7 @@ end
 
 
 function Enemy.update(dt)
+    -- print(Enemy.lastEnemy())
     -- print(Enemy.currentCombatStates["Orc Rider"])
     if not Party.playerTurn then
         if not Enemy.calledPAOnce then
@@ -297,14 +368,26 @@ end
 
 
 function Enemy.draw()
-    -- Enemy.setNewEnemy()
+    -- Enemy.printDebugInfo()
+    Enemy.updateAliveEnemies()
+
+    if not Enemy.drawEnemies then return end
+
     if not Party.currentEnemy then
         Enemy.setNewEnemy()
     end
+
     for _, enemyName in ipairs(Enemy.enemies) do
         local enemyInfo = Enemy.enemyInfo[enemyName]
+        if not enemyInfo then
+            print("Enemy info missing for:", enemyName)
+            goto continue
+        end
+        local enemyInfo = Enemy.enemyInfo[enemyName]
         local animation = Enemy.currEnemyAnimation[enemyName]
+        -- print(enemyInfo.stats.HP)
         local currHP = enemyInfo.stats.HP
+
 
         if not Enemy.currentCombatStates[enemyName] then
             if currHP > 0 and not Enemy.currentCombatStates[enemyName] then
@@ -336,6 +419,7 @@ function Enemy.draw()
                 deathAnimation:drawFrame(#deathAnimation.frames, enemyInfo.position.x, enemyInfo.position.y, false)
             end
         end
+        ::continue::
     end
 
     if Enemy.noCombat() then
@@ -349,7 +433,7 @@ function Enemy.draw()
         end
     end
 
-    for i, rect in ipairs(Enemy.predefinedRects) do
+    --[[for i, rect in ipairs(Enemy.predefinedRects) do
         love.graphics.setColor(0, 1, 0, 0.3) 
         love.graphics.rectangle(
             "fill", 
@@ -359,7 +443,7 @@ function Enemy.draw()
             50
         )
     end
-    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.setColor(1, 1, 1, 1)]]
 
 end
 

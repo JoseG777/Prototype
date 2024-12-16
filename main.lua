@@ -46,9 +46,9 @@ function love.draw()
         if Party.defeated() then
             screen = "defeat"
         end
-        if Enemy.defeated() then
-            screen = "victory"
-        end
+        -- if Enemy.defeated() then
+        --    screen = "victory"
+        -- end
     elseif screen == "defeat" then
         love.graphics.setColor(0, 0, 0, 0.8) 
         love.graphics.rectangle("fill", 0, 0, 550, 800)
@@ -90,9 +90,9 @@ function love.update(dt)
             screen = "home"
         end)
     elseif screen == "battle" then
+        BattleScreen.update(dt)
         Enemy.update(dt)
         Party.update(dt) 
-        BattleScreen.update(dt)
         FloatingNumbers.update(dt)
     end
 end

@@ -51,8 +51,9 @@ Party.currentAttackerIndexes = {nil, nil, nil, nil, nil, nil}
 Party.currentCombatStates = {nil, nil, nil, nil, nil, nil} 
 
 Party.targetUnits = {}
-Party.attackedCount = -4
+Party.attackedCount = 0
 Party.playerTurn = true
+Party.attackFinished = {}
 
 
 function Party.defeated()
@@ -63,6 +64,16 @@ function Party.defeated()
         end
     end
     return true 
+end
+
+
+function Party.allAttacksFinished()
+    for i = 1, #Party.attackFinished do
+        if not Party.attackFinished[i] then
+            return false
+        end
+    end
+    return true
 end
 
 
@@ -457,6 +468,7 @@ function Party.mousepressed(x, y, button)
                         if Party.currentEnemy.stats.HP <= 0 then
                             Party.currentEnemy = nil
                         end
+                        Party.attackFinished[curr_member] = true
                     end
                 )
                 return
