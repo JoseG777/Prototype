@@ -8,7 +8,7 @@ local Enemy = require("mechanics.enemy")
 
 local background
 
-screen = "battle" -- starting screen, change for testing
+screen = "home" -- starting screen, change for testing
 summonResult = nil
 
 function love.load()

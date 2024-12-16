@@ -5,7 +5,7 @@ local Utils = require("utils")
 
 local Party = {}
 
-Party.members = {"Swordsman", "Archer", nil , nil, nil, nil} -- max of 6 units
+Party.members = {"Swordsman", "Archer", "Priest", nil, nil, nil} -- max of 6 units
 Party.memberStats = {}
 -- Party.currMemberStats = {}
 Party.memberSkills = {} -- max of 5 skills per unit
@@ -414,6 +414,7 @@ function Party.mousepressed(x, y, button)
                 if x >= slot.x - 137.5 and x <= slot.x + 137.5 and y >= slot.y + 10 and y <= slot.y + 92 then
                     Party.selectedAttack[Party.selectedUnit] = skills[i][1]
                     Party.selectedAttackData[Party.selectedUnit] = skills[i][4]
+                    -- print(Party.selectedAttackData[Party.selectedUnit].name)
                     Party.attackSelectionMode = false
                     Party.selectedUnit = nil
                     return
@@ -434,44 +435,51 @@ function Party.mousepressed(x, y, button)
         for i, box in ipairs(Party.predefinedRects) do
             local curr_member = Party.members[i]
             if curr_member and Party.selectedAttack[curr_member] and x >= box.leftX and x <= box.leftX + 50 and y >= box.upperY and y <= box.upperY + 50 then
-
-                Party.currentAttackers[i] = name
-                Party.currentAttackerIndexes[i] = true
-                local attacker = {
-                    name = curr_member,
-                    position = {
-                        x = Party.unitPositions[i].x,
-                        y = Party.unitPositions[i].y
-                    },
-                    animation = Party.selectedAttack[curr_member],
-                    idleAnimation = Party.animations[curr_member].idle,
-                    stats = Party.memberStats[curr_member]
-                }
-        
-                Party.currUnitAnimation[curr_member] = Party.selectedAttack[curr_member]
-                -- print("we are here")
-                
-                Party.currentCombatStates[i] = Combat.performAttack(
-                    attacker,
-                    Party.currentEnemy,
-                    Party.selectedAttack[curr_member],
-                    Party.selectedAttackData[curr_member],
-                    function()
-                        Party.selectedAttack[curr_member] = nil
-                        Party.currUnitAnimation[curr_member] = Party.animations[curr_member].idle
-                        Party.currentAttackers[i] = nil
-                        Party.currentAttackerIndexes[i] = nil
-                        Party.selectedAttackData[curr_member] = nil
-                        Party.attackedCount = Party.attackedCount + 1
-                        Party.currentCombatStates[i] = nil
-                        Party.isPlayerTurn()
-                        if Party.currentEnemy.stats.HP <= 0 then
-                            Party.currentEnemy = nil
+                if curr_member == "Priest" and Party.selectedAttackData[curr_member].name == "Heal" then
+                    Combat.performHeal(Party.targetUnits, Party.memberStats)
+                    Party.attackedCount = Party.attackedCount + 1
+                    Party.isPlayerTurn()
+                    Party.selectedAttack[curr_member] = nil
+                    Party.selectedAttackData[curr_member] = nil
+                else
+                    Party.currentAttackers[i] = name
+                    Party.currentAttackerIndexes[i] = true
+                    local attacker = {
+                        name = curr_member,
+                        position = {
+                            x = Party.unitPositions[i].x,
+                            y = Party.unitPositions[i].y
+                        },
+                        animation = Party.selectedAttack[curr_member],
+                        idleAnimation = Party.animations[curr_member].idle,
+                        stats = Party.memberStats[curr_member]
+                    }
+            
+                    Party.currUnitAnimation[curr_member] = Party.selectedAttack[curr_member]
+                    -- print("we are here")
+                    
+                    Party.currentCombatStates[i] = Combat.performAttack(
+                        attacker,
+                        Party.currentEnemy,
+                        Party.selectedAttack[curr_member],
+                        Party.selectedAttackData[curr_member],
+                        function()
+                            Party.selectedAttack[curr_member] = nil
+                            Party.currUnitAnimation[curr_member] = Party.animations[curr_member].idle
+                            Party.currentAttackers[i] = nil
+                            Party.currentAttackerIndexes[i] = nil
+                            Party.selectedAttackData[curr_member] = nil
+                            Party.attackedCount = Party.attackedCount + 1
+                            Party.currentCombatStates[i] = nil
+                            Party.isPlayerTurn()
+                            if Party.currentEnemy.stats.HP <= 0 then
+                                Party.currentEnemy = nil
+                            end
+                            Party.attackFinished[curr_member] = true
                         end
-                        Party.attackFinished[curr_member] = true
-                    end
-                )
-                return
+                    )
+                    return
+                end
             end
         end
 

@@ -19,6 +19,21 @@ function Combat.calculateDamage(attacker, target, atkData)
     return math.floor(math.max(1, baseDamage * multiplier * skillMultiplier)) -- account for negatives
 end
 
+
+function Combat.performHeal(targetUnits, memberStats)
+    local healAmount = 100
+    for unitName, unit in pairs(targetUnits) do
+        if unit.stats.HP > 0 then
+            local maxHP = memberStats[unitName].HP 
+            local newHP = math.min(unit.stats.HP + healAmount, maxHP)
+            local healedAmount = newHP - unit.stats.HP
+            unit.stats.HP = newHP
+            FloatingNumbers.new(unit.position.x, unit.position.y - 30, "+" .. healedAmount)
+        end
+    end
+end
+
+
 function Combat.performAttack(attacker, target, attackAnimation, atkData, onComplete)
     if not attacker or not target or not attackAnimation or not atkData then
         error("Missing parameters for performAttack")

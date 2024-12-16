@@ -198,7 +198,6 @@ function Enemy.loadAssetsFor(enemy)
     local position_index = Enemy.getIndex(enemy)
     local total_hp = data.stats.HP
 
-    print("we make it here")
 
     Enemy.enemyInfo[enemy] = {
         position = {x = Enemy.positions[position_index].x, y = Enemy.positions[position_index].y}, 

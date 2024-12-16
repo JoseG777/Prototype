@@ -509,11 +509,12 @@
                 "frameCount": 6,
                 "frameDuration": 0.33,
                 "name": "Heal",
-                "description": "Heal a teammate!",
+                "description": "Heal your team!",
                 "type": "stationary_attack",
                 "damageType": "magic",
                 "delivery": "spawn",
-                "damageMultiplier": ""
+                "damageMultiplier": "",
+                "MP_cost": null
             }
         }
     }
