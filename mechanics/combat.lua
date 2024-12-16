@@ -1,5 +1,6 @@
 local Utils = require("utils")
 local FloatingNumbers = require("mechanics.damage_display")
+local Animation = require("mechanics.animation")
 local Combat = {}
 
 function Combat.calculateDamage(attacker, target, atkData)
@@ -20,15 +21,26 @@ function Combat.calculateDamage(attacker, target, atkData)
 end
 
 
-function Combat.performHeal(targetUnits, memberStats)
+function Combat.performHeal(targetUnits, memberStats, healEffects)
     local healAmount = 100
     for unitName, unit in pairs(targetUnits) do
         if unit.stats.HP > 0 then
-            local maxHP = memberStats[unitName].HP 
+            local maxHP = memberStats[unitName].HP
             local newHP = math.min(unit.stats.HP + healAmount, maxHP)
             local healedAmount = newHP - unit.stats.HP
             unit.stats.HP = newHP
             FloatingNumbers.new(unit.position.x, unit.position.y - 30, "+" .. healedAmount)
+
+            healEffects[unitName] = {
+                animation = Animation.new(
+                    "assets/effects/heal.png",
+                    4, 
+                    0.2, 
+                    1.5 
+                ),
+                position = {x = unit.position.x, y = unit.position.y + 10}
+            }
+            healEffects[unitName].animation:setLoop(false)
         end
     end
 end

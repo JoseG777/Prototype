@@ -3,9 +3,9 @@
         "name": "Swordsman",
         "rarity": "3★",
         "stats": {
-            "HP": 15000,
+            "HP": 150,
             "MP": 0,
-            "ATK": 100,
+            "ATK": 90,
             "DEF": 70,
             "MAG": 0
         },
@@ -76,7 +76,7 @@
         "name": "Archer",
         "rarity": "3★",
         "stats": {
-            "HP": 13000,
+            "HP": 130,
             "MP": 0,
             "ATK": 110,
             "DEF": 50,
@@ -475,7 +475,7 @@
         "stats": {
             "HP": 300,
             "MP": 150,
-            "ATK": 1000,
+            "ATK": 50,
             "DEF": 50,
             "MAG": 180
         },

@@ -54,6 +54,13 @@ Party.targetUnits = {}
 Party.attackedCount = 0
 Party.playerTurn = true
 Party.attackFinished = {}
+Party.healEffects = {}
+Party.healAnimation = Animation.new(
+    "assets/effects/heal.png",
+    4, 
+    0.2, 
+    1.5 
+)
 
 
 function Party.defeated()
@@ -285,6 +292,15 @@ function Party.update(dt)
             Party.currentCombatStates[6]:update(dt)
         end
     end
+
+    for unitName, effect in pairs(Party.healEffects) do
+        if effect.animation then
+            effect.animation:update(dt)
+            if not effect.animation.isPlaying then
+                Party.healEffects[unitName] = nil 
+            end
+        end
+    end
     
 end
 
@@ -318,6 +334,13 @@ function Party.draw()
             if Party.currentCombatStates[i] then
                 Party.currentCombatStates[i]:draw()
             end
+        end
+    end
+
+
+    for unitName, effect in pairs(Party.healEffects) do
+        if effect.animation then
+            effect.animation:draw(effect.position.x, effect.position.y, true)
         end
     end
 
@@ -436,7 +459,7 @@ function Party.mousepressed(x, y, button)
             local curr_member = Party.members[i]
             if curr_member and Party.selectedAttack[curr_member] and x >= box.leftX and x <= box.leftX + 50 and y >= box.upperY and y <= box.upperY + 50 then
                 if curr_member == "Priest" and Party.selectedAttackData[curr_member].name == "Heal" then
-                    Combat.performHeal(Party.targetUnits, Party.memberStats)
+                    Combat.performHeal(Party.targetUnits, Party.memberStats, Party.healEffects)
                     Party.attackedCount = Party.attackedCount + 1
                     Party.isPlayerTurn()
                     Party.selectedAttack[curr_member] = nil
